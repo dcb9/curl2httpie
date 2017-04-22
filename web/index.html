@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>curl-to-httpie: Convert curl commands to HTTPie commands</title>
+    <style>
+#convert_btn {
+  margin: 10px 0 14px;
+}
+#input, #convert_btn, #httpie_output {
+  padding: 5px;
+  font-size: 150%;
+}
+@media screen and (min-width: 801px) {
+  #input, #httpie_output {
+    width: 48.5rem;
+  }
+}
+@media screen and (max-width: 800px) {
+  #input, #httpie_output {
+    width: 99%;
+  }
+}
+#httpie_output {
+  height: 180px;
+  border: 1px solid;
+  margin-bottom: 25px;
+}
+    </style>
+  </head>
+  <body>
+    <h1>curl-to-httpie online</h1>
+    <h2>Instantly convert <a href="https://curl.haxx.se/">curl</a> commands to <a href="https://httpie.org/">HTTPie</a> code</h2>
+
+    <p>
+    This tool turns a curl command into HTTPie command. There's probably bugs; please <a href="https://github.com/dcb9/curl2httpie">contribute on GitHub</a>!
+    </p>
+
+    <textarea id="input" rows="6" placeholder="Paste curl here"></textarea>
+    <div><button id="convert_btn">Convert</button></div>
+    <div id="httpie_output"></div>
+
+    &copy; <script>document.write(new Date().getFullYear());</script> Dcb9 - <a href="https://github.com/dcb9/curl2httpie">View on GitHub</a>
+  </body>
+  <script src="curl2httpie.js"></script>
+  <script src="web.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-97868703-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</html>

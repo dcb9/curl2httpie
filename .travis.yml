@@ -1,0 +1,16 @@
+language: go
+
+go:
+        - 1.8.x
+
+script:
+        - make travis-pages
+
+deploy:
+         provider: pages
+         skip_cleanup: true
+         github_token: $GH_TOKEN
+         local_dir: web/
+         fqdn: curl2httpie.online
+         on:
+                branch: master
