@@ -1,17 +1,13 @@
 package main
 
 import (
-	"github.com/dcb9/curl2httpie"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/lmika/shellwords"
+	"github.com/dcb9/curl2httpie/connector"
 )
 
 func Httpie(cmd string) string {
-	str, err := curl2httpie.Httpie(shellwords.Split("web " + cmd))
-	if err != nil {
-		js.Global.Call("alert", err.Error())
-		return ""
-	}
+	str := connector.Curl2Httpie(shellwords.Split(cmd))
 	return str
 }
 

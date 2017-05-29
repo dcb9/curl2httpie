@@ -5,3 +5,7 @@ travis-pages :
 
 release :
 	cd cmd/ && goxc -pv="$(v)" -d="$(dest)"
+
+generateOptions :
+	go run cmd/generateOptions/main.go -path="$(path)"
+	go-bindata -ignore .gitignore -pkg curl -o ./curl/bindata.go data/
