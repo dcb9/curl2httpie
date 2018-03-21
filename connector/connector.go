@@ -1,6 +1,8 @@
 package connector
 
 import (
+	"fmt"
+
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
 	"github.com/dcb9/curl2httpie/transformer"
@@ -33,7 +35,12 @@ func Curl2Httpie(args []string) string {
 
 	cmdline.SetURL(url)
 	for _, o := range curlOptions {
-		transformerMap[o.Long](cmdline, o)
+		t, ok := transformerMap[o.Long]
+		if !ok {
+			fmt.Printf("Skipped: option \"%s\" is not supported \n", o.Long)
+			t = transformer.Noop
+		}
+		t(cmdline, o)
 	}
 
 	return cmdline.String()

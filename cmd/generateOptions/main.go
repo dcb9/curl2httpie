@@ -1,13 +1,14 @@
 package main
 
 import (
-	"strings"
-	"flag"
-	"github.com/dcb9/curl2httpie/curl"
 	"encoding/json"
+	"flag"
 	"fmt"
-	"os"
 	"io/ioutil"
+	"os"
+	"strings"
+
+	"github.com/dcb9/curl2httpie/curl"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 		panic(err)
 	}
 	if len(options) < 50 {
-		fmt.Fprintf(os.Stderr,"Too few options found: %d\n", len(options))
+		fmt.Fprintf(os.Stderr, "Too few options found: %d\n", len(options))
 		os.Exit(1)
 	}
 

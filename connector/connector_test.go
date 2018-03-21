@@ -8,6 +8,10 @@ func TestCurl2Httpie(t *testing.T) {
 		want string
 	}{
 		{
+			[]string{"curl", "-i", "-u", "username", "-d", `'{"scopes":["public_repo"]}'`, `https://api.github.com/authorizations`},
+			`echo '{"scopes":["public_repo"]}' | http --auth "username" --form POST https://api.github.com/authorizations`,
+		},
+		{
 			[]string{"curl", "z.cn"},
 			"http GET z.cn",
 		}, {
@@ -55,6 +59,9 @@ func TestCurl2Httpie(t *testing.T) {
 		}, {
 			[]string{"curl", "local.dev", "--verbose", "--cookie", "NAME=VAL", "--referer", "z.cn", "--user-agent", "httpie", "-u", "user:", "-d", "foo=Bar"},
 			`http --verbose --auth "user:" --form POST local.dev "Cookie:NAME=VAL" "Referer:z.cn" "User-Agent:httpie" "foo=Bar"`,
+		}, {
+			[]string{"curl", "-H", "Host: foo.bar.com", "-H", "Accept: */*", "-H", "User-Agent: debug-MyAppName/ CFNetwork/893.14 Darwin/17.4.0", "-H", "Accept-Language: en-us", "--data", "client_id=foobarfoobarfoobar&client_secret=bazquzbazquz&grant_type=password&password=SomePasswordHere&scope=user&username=first.last%2B1%40domain.com", "--compressed", "https://stage.buildsafely.com/api/oauth/token"},
+			`http --form POST https://stage.buildsafely.com/api/oauth/token "Host:foo.bar.com" "Accept:*/*" "User-Agent:debug-MyAppName/ CFNetwork/893.14 Darwin/17.4.0" "Accept-Language:en-us" "client_id=foobarfoobarfoobar&client_secret=bazquzbazquz&grant_type=password&password=SomePasswordHere&scope=user&username=first.last%2B1%40domain.com"`,
 		},
 	}
 

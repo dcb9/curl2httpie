@@ -1,6 +1,9 @@
 package transformer
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
@@ -43,13 +46,25 @@ func Method(cl *httpie.CmdLine, o *curl.Option) {
 
 func Data(cl *httpie.CmdLine, o *curl.Option) {
 	s := strings.SplitN(o.Arg, "=", 2)
-	if len(s) != 2 {
-		panic(s)
+	if len(s) == 2 {
+		i := httpie.NewDataField(s[0], s[1])
+		cl.AddItem(i)
+		cl.HasBody = true
+		return
 	}
 
-	i := httpie.NewDataField(s[0], s[1])
-	cl.AddItem(i)
-	cl.HasBody = true
+	// try RAW JSON
+	var js json.RawMessage
+	err := json.Unmarshal([]byte(o.Arg[1:len(o.Arg)-1]), &js)
+	if err == nil {
+		cl.DirectedInput = ioutil.NopCloser(strings.NewReader(o.Arg))
+		cl.HasBody = true
+		return
+	} else {
+		fmt.Println(err)
+	}
+
+	panic("Unknown data type")
 }
 
 func URL(cl *httpie.CmdLine, o *curl.Option) {
@@ -82,4 +97,7 @@ func Referer(cl *httpie.CmdLine, o *curl.Option) {
 func Cookie(cl *httpie.CmdLine, o *curl.Option) {
 	h := httpie.NewHeader("Cookie", o.Arg)
 	cl.AddItem(h)
+}
+
+func Noop(cl *httpie.CmdLine, o *curl.Option) {
 }
