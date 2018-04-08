@@ -7,8 +7,6 @@ import (
 	"encoding/json"
 )
 
-var rawCmdlineOptsDir = "./cmdline-opts/"
-
 type Tag string
 type Protocol string
 type LongName string
@@ -183,22 +181,23 @@ func isHTTPOption(o Option) bool {
 	return false
 }
 
-func HTTPOptions() (options []*Option) {
+func HTTPOptions() (options []*Option, err error) {
 	data, err := Asset("data/options.json")
 	if err != nil {
-		panic(err)
+		return
 	}
 
 	options = make([]*Option, 0, 256)
 	err = json.Unmarshal(data, &options)
-	if err != nil {
-		panic(err)
-	}
+
 	return
 }
 
-func URLAndOptions(args []string) (string, []*Option) {
-	var availableOptions = HTTPOptions()
+func URLAndOptions(args []string) (string, []*Option, error) {
+	var availableOptions, err = HTTPOptions()
+	if err != nil {
+		return "", nil, err
+	}
 
 	url, options := "", make([]*Option, 0, len(args))
 
@@ -249,15 +248,13 @@ func URLAndOptions(args []string) (string, []*Option) {
 		i++
 	}
 
-	if url == "" {
-		for i := range args {
-			if !InIntSlice(indices, i)	 {
-				url = args[i]
-			}
+	for i := range args {
+		if !InIntSlice(indices, i)	 {
+			url = args[i]
 		}
 	}
 
-	return url, options
+	return url, options, nil
 }
 
 func InIntSlice(s []int, v int) (found bool) {

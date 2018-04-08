@@ -7,8 +7,8 @@ import (
 )
 
 func Httpie(cmd string) string {
-	str := connector.Curl2Httpie(shellwords.Split(cmd))
-	return str
+	cmdStringer, _, _ := connector.Curl2Httpie(shellwords.Split(cmd))
+	return cmdStringer.String()
 }
 
 func main() {

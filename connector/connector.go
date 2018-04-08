@@ -1,47 +1,20 @@
 package connector
 
 import (
+	"errors"
 	"fmt"
-
-	"github.com/dcb9/curl2httpie/curl"
-	"github.com/dcb9/curl2httpie/httpie"
-	"github.com/dcb9/curl2httpie/transformer"
 )
 
-var transformerMap = map[curl.LongName]transformer.Transformer{
-	"header":     transformer.Header,
-	"request":    transformer.Method,
-	"data":       transformer.Data,
-	"url":        transformer.URL,
-	"user":       transformer.User,
-	"user-agent": transformer.UserAgent,
-	"verbose":    transformer.Verbose,
-	"referer":    transformer.Referer,
-	"cookie":     transformer.Cookie,
-}
+var ErrUnknownCommandType = errors.New("the command must begin with 'curl'")
 
-func Curl2Httpie(args []string) string {
-	url, curlOptions := "", make([]*curl.Option, 0, len(args))
-	cmdline := httpie.NewCmdLine()
-	if len(args) < 2 {
-		panic("No enough args")
-	} else if len(args) == 2 {
-		cmdline.SetURL(args[1])
-		return cmdline.String()
-	} else {
-		args = args[1:]
-		url, curlOptions = curl.URLAndOptions(args)
+type WarningMessage string
+
+func Convert(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {
+	switch args[0] {
+	case "curl":
+		return Curl2Httpie(args)
 	}
 
-	cmdline.SetURL(url)
-	for _, o := range curlOptions {
-		t, ok := transformerMap[o.Long]
-		if !ok {
-			fmt.Printf("Skipped: option \"%s\" is not supported \n", o.Long)
-			t = transformer.Noop
-		}
-		t(cmdline, o)
-	}
-
-	return cmdline.String()
+	err =	ErrUnknownCommandType
+	return
 }
