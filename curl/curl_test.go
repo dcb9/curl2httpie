@@ -32,6 +32,6 @@ func TestFiles(t *testing.T) {
 	}
 
 	for _, o := range options {
-		fmt.Printf("%s\n", o.String())
+		fmt.Printf("%s\n", o.dumpStructure())
 	}
 }

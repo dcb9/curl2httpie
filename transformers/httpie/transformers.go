@@ -1,4 +1,4 @@
-package transformer
+package httpie
 
 import (
 	"encoding/json"

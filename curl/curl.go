@@ -28,7 +28,23 @@ type Option struct {
 	Body      string
 }
 
-func (o *Option) String() string {
+func (o *Option) String(useLongName bool) string {
+	if o.HasArg {
+		if useLongName {
+			return fmt.Sprintf(`--%s "%s"`, o.Long, o.Arg)
+		}
+
+		return fmt.Sprintf(`-%s "%s"`, string(o.Short), o.Arg)
+	}
+
+	if useLongName {
+		return fmt.Sprintf("--%s", o.Long)
+	}
+
+	return fmt.Sprintf("-%s", string(o.Short))
+}
+
+func (o *Option) dumpStructure() string {
 	hasArg := "false"
 	if o.HasArg {
 		hasArg = "true"
@@ -194,6 +210,10 @@ func HTTPOptions() (options []*Option, err error) {
 }
 
 func URLAndOptions(args []string) (string, []*Option, error) {
+	if len(args) == 1 {
+		return args[0], nil, nil
+	}
+
 	var availableOptions, err = HTTPOptions()
 	if err != nil {
 		return "", nil, err

@@ -66,12 +66,12 @@ func TestCurl2Httpie(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		gotStringer, warningMessages, err := Curl2Httpie(c.in)
+		gotStringer, warningMessages, err := Curl2Httpie(c.in[1:])
 		if len(warningMessages) > 0 {
 			t.Logf("Curl2Httpie warning messages: %#v in: %#v", warningMessages, c.in)
 		}
 		if err != nil {
-			t.Errorf("Curl2Httpie error: %s in: %#v", err.Error(), c.in)
+			t.Fatalf("Curl2Httpie error: %s in: %#v", err.Error(), c.in)
 			continue
 		}
 
