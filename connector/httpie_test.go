@@ -36,6 +36,14 @@ func TestHttpie2Curl(t *testing.T) {
 			`curl --user "username" --header "foo: bar" --header "Content-Type: application/json" --data "{\"a\":{\"foo\":\"bar\"},\"foo\":\"bar\"}" example.org?id=1`,
 		},
 		{
+			[]string{"http", "--auth", "username", "POST", "example.org", "id==1", "foo:bar", "foo=bar", `a:={"foo": "bar"}`},
+			`curl --request "POST" --user "username" --header "foo: bar" --header "Content-Type: application/json" --data "{\"a\":{\"foo\":\"bar\"},\"foo\":\"bar\"}" example.org?id=1`,
+		},
+		{
+			[]string{"http","PUT", "z.cn"},
+			`curl --request "PUT" z.cn`,
+		},
+		{
 			[]string{"http", "z.cn"},
 			"curl z.cn",
 		},

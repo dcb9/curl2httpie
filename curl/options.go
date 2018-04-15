@@ -42,6 +42,15 @@ func NewForm(content string) *Option {
 	}
 }
 
+func NewRequest(request string) *Option {
+	return &Option{
+		Short: 'X',
+		Long: LongName("request"),
+		HasArg: true,
+		Arg: request,
+	}
+}
+
 func NewData(data string) *Option {
 	return &Option{
 		Short: 'd',

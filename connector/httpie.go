@@ -20,6 +20,9 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 
 	curlCmdLine := curl.NewCmdLine()
 	curlCmdLine.URL = httpieInstance.URL
+	if method := httpieInstance.Method; method != nil && string(*method) != "GET" {
+		curlCmdLine.Options = append(curlCmdLine.Options, curl.NewRequest(string(*method)))
+	}
 
 	isJSONContentType := true
 	// flags
