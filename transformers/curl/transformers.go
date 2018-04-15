@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 )
 
-type ItemTransformer func(*curl.CmdLine, httpie.Itemer)
+type ItemTransformer func(*curl.CmdLine, *httpie.Item)
 type FlagTransformer func(*curl.CmdLine, *httpie.Flag)
 
 func Method(cl *curl.CmdLine, method *httpie.Method) {

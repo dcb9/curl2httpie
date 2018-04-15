@@ -7,6 +7,9 @@ import (
 	"github.com/dcb9/curl2httpie/curl"
 	"strings"
 	curlTransformer "github.com/dcb9/curl2httpie/transformers/curl"
+	"encoding/json"
+	"os"
+	"io/ioutil"
 )
 
 func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {
@@ -17,23 +20,15 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 
 	curlCmdLine := curl.NewCmdLine()
 	curlCmdLine.URL = httpieInstance.URL
-	items := make([]httpie.Itemer, 0, len(httpieInstance.Items))
-	queries := make([]string, 0)
-	for _, i := range httpieInstance.Items {
-		if queryItemer, ok := i.(httpie.QueryItemer); ok {
-			queries = append(queries, queryItemer.ToQuery())
+
+	isJSONContentType := true
+	// flags
+	for _, f := range httpieInstance.Flags {
+		if f.Long == "form" {
+			isJSONContentType = false
 			continue
 		}
 
-		items = append(items, i)
-	}
-	if len(queries) > 0 {
-		curlCmdLine.URL = fmt.Sprintf("%s?%s", curlCmdLine.URL, strings.Join(queries, "&"))
-	}
-
-
-	// flags
-	for _, f := range httpieInstance.Flags {
 		t, ok := httpieFlag2CurlOptionTransformerMap[f.Long]
 		if !ok {
 			warningMessages = append(
@@ -46,6 +41,75 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 		t(curlCmdLine, f)
 	}
 
+	data := make(map[string]interface{})
+	hasData := false
+	queries := make([]string, 0)
+	fieldOrder := make([]string, 0)
+	for _, i := range httpieInstance.Items {
+		switch i.S {
+		case httpie.SEP_URL_PARAM:
+			queries = append(queries, fmt.Sprintf("%s=%s", i.K, i.V))
+		case httpie.SEP_HEADER:
+			curlCmdLine.Options = append(curlCmdLine.Options, curl.NewHeader(i.K, i.V))
+		case httpie.SEP_FILE:
+			if isJSONContentType {
+				warningMessages = append(
+					warningMessages,
+					WarningMessage("skipped: file field could not be with JSON content-type"),
+				)
+			} else {
+				hasData = true
+				curlCmdLine.Options = append(curlCmdLine.Options, curl.NewForm(fmt.Sprintf(`%s=@"%s"`, i.K, i.V)))
+			}
+		case httpie.SEP_DATA:
+			hasData = true
+			fieldOrder = append(fieldOrder, i.K)
+			if i.V[0] == '@' {
+				var bytes []byte
+				bytes, err = getFileContent(i.V[1:])
+				if err != nil {
+					return
+				}
+				data[i.K] = string(bytes)
+			} else {
+				data[i.K] = i.V
+			}
+		case httpie.SEP_JSON:
+			hasData = true
+			fieldOrder = append(fieldOrder, i.K)
+			if i.V[0] == '@' {
+				var bytes []byte
+				bytes, err = getFileContent(i.V[1:])
+				if err != nil {
+					return
+				}
+				data[i.K] = json.RawMessage(bytes)
+			} else {
+				data[i.K] = json.RawMessage(i.V)
+			}
+		}
+	}
+	if len(queries) > 0 {
+		curlCmdLine.URL = fmt.Sprintf("%s?%s", curlCmdLine.URL, strings.Join(queries, "&"))
+	}
+
+	if hasData {
+		if isJSONContentType {
+			var bs []byte
+			bs, err = json.Marshal(data)
+			if err != nil {
+				return
+			}
+			curlCmdLine.Options = append(curlCmdLine.Options, curl.NewJSONHeader(), curl.NewData(string(bs)))
+		} else {
+			fields := make([]string, 0, len(data))
+			for _, key := range fieldOrder {
+				fields = append(fields, fmt.Sprintf("%s=%s", key, data[key]))
+			}
+			curlCmdLine.Options = append(curlCmdLine.Options, curl.NewData(strings.Join(fields, "&")))
+		}
+	}
+
 	cmdStringer = curlCmdLine.NewStringer(true)
 
 	return
@@ -53,4 +117,13 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 
 var httpieFlag2CurlOptionTransformerMap = map[string]curlTransformer.FlagTransformer{
 	"auth":       curlTransformer.Auth,
+}
+
+func getFileContent(filename string) ([]byte, error){
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+
+	return ioutil.ReadAll(f)
 }

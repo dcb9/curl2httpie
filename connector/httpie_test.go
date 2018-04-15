@@ -17,11 +17,23 @@ func TestHttpie2Curl(t *testing.T) {
 		},
 		{
 			[]string{"http", "--auth", "username", "example.org", "id==1", "foo:bar"},
-			`curl --user "username" --header "foo:bar" example.org?id=1`,
+			`curl --user "username" --header "foo: bar" example.org?id=1`,
+		},
+		{
+			[]string{"http", "--form", "--auth", "username", "example.org", "id==1", "foo:bar", "foo=bar"},
+			`curl --user "username" --header "foo: bar" --data "foo=bar" example.org?id=1`,
 		},
 		{
 			[]string{"http", "--auth", "username", "example.org", "id==1", "foo:bar", "foo=bar"},
-			`curl --user "username" --header "foo:bar" --data '{"foo":"bar"}' example.org?id=1`,
+			`curl --user "username" --header "foo: bar" --header "Content-Type: application/json" --data "{\"foo\":\"bar\"}" example.org?id=1`,
+		},
+		{
+			[]string{"http", "-f", "--auth", "username", "example.org", "id==1", "foo:bar", "foo=bar", "file@test_obj.json"},
+			`curl --user "username" --header "foo: bar" --form "file=@\"test_obj.json\"" --data "foo=bar" example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "example.org", "id==1", "foo:bar", "foo=bar", `a:={"foo": "bar"}`},
+			`curl --user "username" --header "foo: bar" --header "Content-Type: application/json" --data "{\"a\":{\"foo\":\"bar\"},\"foo\":\"bar\"}" example.org?id=1`,
 		},
 		{
 			[]string{"http", "z.cn"},

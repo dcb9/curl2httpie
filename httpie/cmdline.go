@@ -13,7 +13,7 @@ type CmdLine struct {
 	Flags         []*Flag
 	Method        *Method
 	URL           string
-	Items         []Itemer
+	Items         []*Item
 	HasBody       bool
 	DirectedInput io.ReadCloser
 }
@@ -30,7 +30,7 @@ func (cl *CmdLine) SetURL(url string) {
 	cl.URL = url
 }
 
-func (cl *CmdLine) AddItem(i Itemer) {
+func (cl *CmdLine) AddItem(i *Item) {
 	cl.Items = append(cl.Items, i)
 }
 
@@ -64,7 +64,7 @@ func (cl *CmdLine) String() string {
 	s = append(s, cl.Method.String(), cl.URL)
 
 	for _, v := range cl.Items {
-		s = append(s, v.Item())
+		s = append(s, v.String())
 	}
 
 	if cl.DirectedInput != nil && cl.HasBody {
@@ -83,7 +83,7 @@ func (cl *CmdLine) String() string {
 func NewCmdLine() *CmdLine {
 	return &CmdLine{
 		Flags:  make([]*Flag, 0),
-		Items:  make([]Itemer, 0),
+		Items:  make([]*Item, 0),
 	}
 }
 
@@ -104,7 +104,7 @@ func NewCmdLineByArgs(args []string) (*CmdLine, error) {
 	return cmdLine, nil
 }
 
-func getMethodURLAndItems(args []string) (method *Method, url string, items []Itemer, err error) {
+func getMethodURLAndItems(args []string) (method *Method, url string, items []*Item, err error) {
 	method = NewMethod("")
 
 	var lastFlagIndex int
@@ -149,8 +149,8 @@ func getMethodURLAndItems(args []string) (method *Method, url string, items []It
 	return
 }
 
-func parseItems(args []string) ([]Itemer, error) {
-	items := make([]Itemer, 0, len(args))
+func parseItems(args []string) ([]*Item, error) {
+	items := make([]*Item, 0, len(args))
 	for _, arg := range args {
 		item, err := getItemByArg(arg)
 		if err != nil {
@@ -164,7 +164,7 @@ func parseItems(args []string) ([]Itemer, error) {
 	return items, nil
 }
 
-func getItemByArg(arg string) (Itemer, error) {
+func getItemByArg(arg string) (*Item, error) {
 	for i, r := range arg {
 		if i > 0 && arg[i-1] == '\\' {
 			continue

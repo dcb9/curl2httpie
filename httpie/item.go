@@ -4,13 +4,13 @@ import (
 	"fmt"
 )
 
-type Itemer interface {
-	Item() string
-}
-
-type QueryItemer interface {
-	ToQuery() string
-}
+const (
+	SEP_HEADER = ":"
+	SEP_URL_PARAM = "=="
+	SEP_DATA = "="
+	SEP_JSON = ":="
+	SEP_FILE = "@"
+)
 
 type Item struct {
 	K string
@@ -18,37 +18,26 @@ type Item struct {
 	S string
 }
 
-type QueryItem Item
-
-
-func (i *Item) Item() string {
+func (i *Item) String() string {
 	return fmt.Sprintf(`"%s%s%s"`, i.K, i.S, i.V)
-}
-
-func (i *QueryItem) Item() string {
-	return fmt.Sprintf(`"%s%s%s"`, i.K, i.S, i.V)
-}
-
-func (i *QueryItem) ToQuery() string {
-	return fmt.Sprintf(`%s=%s`, i.K, i.V)
 }
 
 func NewHeader(key, val string) *Item {
-	return &Item{key, val, ":"}
+	return &Item{key, val, SEP_HEADER}
 }
 
-func NewURLParam(key, val string) *QueryItem {
-	return &QueryItem{key, val, "=="}
+func NewURLParam(key, val string) *Item {
+	return &Item{key, val, SEP_URL_PARAM}
 }
 
 func NewDataField(key, val string) *Item {
-	return &Item{key, val, "="}
+	return &Item{key, val, SEP_DATA}
 }
 
 func NewJSONField(key, val string) *Item {
-	return &Item{key, val, ":="}
+	return &Item{key, val, SEP_JSON}
 }
 
 func NewFileField(key, val string) *Item {
-	return &Item{key, val, "@"}
+	return &Item{key, val, SEP_FILE}
 }
