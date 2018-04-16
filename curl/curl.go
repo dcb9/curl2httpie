@@ -1,10 +1,10 @@
 package curl
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"strings"
-	"encoding/json"
 )
 
 type Tag string
@@ -271,7 +271,7 @@ func URLAndOptions(args []string) (string, []*Option, error) {
 	}
 
 	for i := range args {
-		if !InIntSlice(indices, i)	 {
+		if !InIntSlice(indices, i) {
 			url = args[i]
 		}
 	}

@@ -1,13 +1,13 @@
 package curl
 
 import (
-	"strings"
 	"fmt"
+	"strings"
 )
 
 type CmdLine struct {
-	Options         []*Option
-	URL           	string
+	Options []*Option
+	URL     string
 }
 
 func (cmdline *CmdLine) NewStringer(useLongName bool) fmt.Stringer {
@@ -22,7 +22,7 @@ type CmdLineStringer struct {
 	useLongName bool
 }
 
-func(cmdlineStringer *CmdLineStringer) String() string {
+func (cmdlineStringer *CmdLineStringer) String() string {
 	parts := []string{"curl"}
 
 	options := make([]string, len(cmdlineStringer.Options))
@@ -43,4 +43,3 @@ func NewCmdLine() *CmdLine {
 		Options: make([]*Option, 0),
 	}
 }
-

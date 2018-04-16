@@ -2,8 +2,8 @@ package httpie
 
 import (
 	"encoding/json"
-	"strings"
 	"errors"
+	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
@@ -45,6 +45,7 @@ func Method(cl *httpie.CmdLine, o *curl.Option) {
 }
 
 var ErrUnknownDataType = errors.New("unknown data type")
+
 func Data(cl *httpie.CmdLine, o *curl.Option) {
 	s := strings.SplitN(o.Arg, "=", 2)
 	if len(s) == 2 {

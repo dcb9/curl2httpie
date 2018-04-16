@@ -40,7 +40,7 @@ func TestHttpie2Curl(t *testing.T) {
 			`curl --request "POST" --user "username" --header "foo: bar" --header "Content-Type: application/json" --data "{\"a\":{\"foo\":\"bar\"},\"foo\":\"bar\"}" example.org?id=1`,
 		},
 		{
-			[]string{"http","PUT", "z.cn"},
+			[]string{"http", "PUT", "z.cn"},
 			`curl --request "PUT" z.cn`,
 		},
 		{
@@ -56,11 +56,11 @@ func TestHttpie2Curl(t *testing.T) {
 			`curl --user "username" --digest example.org?id=1`,
 		},
 		{
-			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128",  "example.org", "id==1"},
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy", "http:http://foo.bar:3128", "example.org", "id==1"},
 			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" example.org?id=1`,
 		},
 		{
-			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128",  "example.org", "id==1"},
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy", "http:http://foo.bar:3128", "example.org", "id==1"},
 			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" example.org?id=1`,
 		},
 		{
@@ -68,11 +68,11 @@ func TestHttpie2Curl(t *testing.T) {
 			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location example.org?id=1`,
 		},
 		{
-			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "example.org", "id==1"},
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy", "http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "example.org", "id==1"},
 			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location --max-redirs "10" example.org?id=1`,
 		},
 		{
-			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "--timeout", "30", "example.org", "id==1"},
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy", "http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "--timeout", "30", "example.org", "id==1"},
 			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location --max-redirs "10" --max-time "30" example.org?id=1`,
 		},
 	}
@@ -93,4 +93,3 @@ func TestHttpie2Curl(t *testing.T) {
 		}
 	}
 }
-

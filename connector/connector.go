@@ -7,7 +7,7 @@ import (
 
 var (
 	ErrUnknownCommandType = errors.New("the command must begin with 'curl'")
-	ErrNoEnoughArgs = errors.New("no enough args")
+	ErrNoEnoughArgs       = errors.New("no enough args")
 )
 
 type WarningMessage string
@@ -25,6 +25,6 @@ func Convert(args []string) (cmdStringer fmt.Stringer, warningMessages []Warning
 		return Httpie2Curl(args[1:])
 	}
 
-	err =	ErrUnknownCommandType
+	err = ErrUnknownCommandType
 	return
 }

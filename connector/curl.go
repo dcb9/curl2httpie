@@ -23,7 +23,7 @@ var curl2HttpieTransformerMap = map[curl.LongName]httpieTransformer.Transformer{
 
 func Curl2Httpie(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {
 	defer func() {
-		if recoverErr := recover(); recoverErr!=nil {
+		if recoverErr := recover(); recoverErr != nil {
 			err = recoverErr.(error)
 			return
 		}
@@ -33,7 +33,7 @@ func Curl2Httpie(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 	url, curlOptions := "", make([]*curl.Option, 0, len(args))
 	cmdline := httpie.NewCmdLine()
 
-	url, curlOptions , err = curl.URLAndOptions(args)
+	url, curlOptions, err = curl.URLAndOptions(args)
 	if err != nil {
 		return
 	}
@@ -56,4 +56,3 @@ func Curl2Httpie(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 
 	return cmdline, warningMessages, nil
 }
-

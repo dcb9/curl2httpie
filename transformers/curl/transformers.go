@@ -2,8 +2,8 @@ package curl
 
 import (
 	"encoding/json"
-	"strings"
 	"errors"
+	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
@@ -17,31 +17,32 @@ func Method(cl *curl.CmdLine, method *httpie.Method) {
 	cl.Options = append(cl.Options, curl.NewMethod(string(*method)))
 }
 
-func Auth(cl *curl.CmdLine,  flag *httpie.Flag) {
+func Auth(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewUser(flag.Arg))
 }
 
-func AuthType(cl *curl.CmdLine,  flag *httpie.Flag) {
+func AuthType(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewNoArgOption(flag.Arg, 0))
 }
 
-func Proxy(cl *curl.CmdLine,  flag *httpie.Flag) {
+func Proxy(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewProxy(flag.Arg))
 }
 
-func Follow(cl *curl.CmdLine,  flag *httpie.Flag) {
+func Follow(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewLocation())
 }
 
-func MaxRedirects(cl *curl.CmdLine,  flag *httpie.Flag) {
+func MaxRedirects(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewMaxRedirs(flag.Arg))
 }
 
-func Timeout(cl *curl.CmdLine,  flag *httpie.Flag) {
+func Timeout(cl *curl.CmdLine, flag *httpie.Flag) {
 	cl.Options = append(cl.Options, curl.NewMaxTime(flag.Arg))
 }
 
 var ErrUnknownDataType = errors.New("unknown data type")
+
 func Data(cl *httpie.CmdLine, o *curl.Option) {
 	s := strings.SplitN(o.Arg, "=", 2)
 	if len(s) == 2 {

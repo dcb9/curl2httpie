@@ -2,11 +2,11 @@ package httpie
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
-	"strings"
-	"github.com/pkg/errors"
 	"net/http"
+	"strings"
 )
 
 type CmdLine struct {
@@ -82,8 +82,8 @@ func (cl *CmdLine) String() string {
 
 func NewCmdLine() *CmdLine {
 	return &CmdLine{
-		Flags:  make([]*Flag, 0),
-		Items:  make([]*Item, 0),
+		Flags: make([]*Flag, 0),
+		Items: make([]*Item, 0),
 	}
 }
 
@@ -129,7 +129,7 @@ func getMethodURLAndItems(args []string) (method *Method, url string, items []*I
 			return
 		}
 		if flags[0].HasArg {
-			possibleMethodIndex = lastFlagIndex+2
+			possibleMethodIndex = lastFlagIndex + 2
 		} else {
 			possibleMethodIndex = lastFlagIndex + 1
 		}
@@ -143,7 +143,7 @@ func getMethodURLAndItems(args []string) (method *Method, url string, items []*I
 	}
 	url = args[urlIndex]
 
-	if len(args) > urlIndex + 1 {
+	if len(args) > urlIndex+1 {
 		items, err = parseItems(args[urlIndex+1:])
 	}
 	return

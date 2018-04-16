@@ -3,13 +3,13 @@ package connector
 import (
 	"fmt"
 
-	"github.com/dcb9/curl2httpie/httpie"
-	"github.com/dcb9/curl2httpie/curl"
-	"strings"
-	curlTransformer "github.com/dcb9/curl2httpie/transformers/curl"
 	"encoding/json"
-	"os"
+	"github.com/dcb9/curl2httpie/curl"
+	"github.com/dcb9/curl2httpie/httpie"
+	curlTransformer "github.com/dcb9/curl2httpie/transformers/curl"
 	"io/ioutil"
+	"os"
+	"strings"
 )
 
 func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {
@@ -119,15 +119,15 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 }
 
 var httpieFlag2CurlOptionTransformerMap = map[string]curlTransformer.FlagTransformer{
-	"auth":       curlTransformer.Auth,
-	"auth-type": curlTransformer.AuthType,
-	"proxy": curlTransformer.Proxy,
-	"follow": curlTransformer.Follow,
+	"auth":          curlTransformer.Auth,
+	"auth-type":     curlTransformer.AuthType,
+	"proxy":         curlTransformer.Proxy,
+	"follow":        curlTransformer.Follow,
 	"max-redirects": curlTransformer.MaxRedirects,
-	"timeout": curlTransformer.Timeout,
+	"timeout":       curlTransformer.Timeout,
 }
 
-func getFileContent(filename string) ([]byte, error){
+func getFileContent(filename string) ([]byte, error) {
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err

@@ -23,18 +23,18 @@ func TestNewCmdLineByArgs(t *testing.T) {
 				Flags: []*Flag{
 					FormFlag,
 				},
-				Method:NewMethod("POST"),
+				Method: NewMethod("POST"),
 			},
 		},
 		{
-			[]string{"http", "-f","--auth", "user:pass", "POST", "z.cn"},
+			[]string{"http", "-f", "--auth", "user:pass", "POST", "z.cn"},
 			&CmdLine{
 				URL: "z.cn",
 				Flags: []*Flag{
 					FormFlag,
 					AuthFlagWithArg("user:pass"),
 				},
-				Method:NewMethod("POST"),
+				Method: NewMethod("POST"),
 			},
 		},
 		{
@@ -61,8 +61,8 @@ func TestNewCmdLineByArgs(t *testing.T) {
 
 			[]string{"http", "POST", "example.org", "foo\\==bar"},
 			&CmdLine{
-				Method:NewMethod("POST"),
-				URL: "example.org",
+				Method: NewMethod("POST"),
+				URL:    "example.org",
 				Items: []Itemer{
 					NewDataField("foo\\=", "bar"),
 				},
@@ -72,8 +72,8 @@ func TestNewCmdLineByArgs(t *testing.T) {
 
 			[]string{"http", "POST", "example.org", "foo=bar"},
 			&CmdLine{
-				Method:NewMethod("POST"),
-				URL: "example.org",
+				Method: NewMethod("POST"),
+				URL:    "example.org",
 				Items: []Itemer{
 					NewDataField("foo", "bar"),
 				},
@@ -83,8 +83,8 @@ func TestNewCmdLineByArgs(t *testing.T) {
 
 			[]string{"http", "--form", "PUT", "example.org", "X-API-Token:123", "name=John"},
 			&CmdLine{
-				Method:NewMethod("PUT"),
-				URL: "example.org",
+				Method: NewMethod("PUT"),
+				URL:    "example.org",
 				Items: []Itemer{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("name", "John"),
@@ -98,8 +98,8 @@ func TestNewCmdLineByArgs(t *testing.T) {
 
 			[]string{"http", "--form", "PUT", "example.org", "X-API-Token:123", "name=John", "id==1"},
 			&CmdLine{
-				Method:NewMethod("PUT"),
-				URL: "example.org",
+				Method: NewMethod("PUT"),
+				URL:    "example.org",
 				Items: []Itemer{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("name", "John"),
@@ -114,8 +114,8 @@ func TestNewCmdLineByArgs(t *testing.T) {
 
 			[]string{"http", "--form", "PUT", "example.org", "X-API-Token:123", `foo\==bar`, "id==1"},
 			&CmdLine{
-				Method:NewMethod("PUT"),
-				URL: "example.org",
+				Method: NewMethod("PUT"),
+				URL:    "example.org",
 				Items: []Itemer{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("foo\\=", "bar"),

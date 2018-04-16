@@ -5,11 +5,11 @@ import (
 )
 
 const (
-	SEP_HEADER = ":"
+	SEP_HEADER    = ":"
 	SEP_URL_PARAM = "=="
-	SEP_DATA = "="
-	SEP_JSON = ":="
-	SEP_FILE = "@"
+	SEP_DATA      = "="
+	SEP_JSON      = ":="
+	SEP_FILE      = "@"
 )
 
 type Item struct {

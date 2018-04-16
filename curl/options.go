@@ -4,28 +4,28 @@ import "fmt"
 
 func NewMethod(method string) *Option {
 	return &Option{
-		Short: 'X',
-		Long: LongName("request"),
+		Short:  'X',
+		Long:   LongName("request"),
 		HasArg: true,
-		Arg: method,
+		Arg:    method,
 	}
 }
 
 func NewUser(user string) *Option {
 	return &Option{
-		Short: 'u',
-		Long: LongName("user"),
+		Short:  'u',
+		Long:   LongName("user"),
 		HasArg: true,
-		Arg: user,
+		Arg:    user,
 	}
 }
 
 func NewHeader(key, val string) *Option {
 	return &Option{
-		Short: 'H',
-		Long: LongName("header"),
+		Short:  'H',
+		Long:   LongName("header"),
 		HasArg: true,
-		Arg: fmt.Sprintf("%s: %v", key, val),
+		Arg:    fmt.Sprintf("%s: %v", key, val),
 	}
 }
 
@@ -35,64 +35,64 @@ func NewJSONHeader() *Option {
 
 func NewForm(content string) *Option {
 	return &Option{
-		Short: 'F',
-		Long: LongName("form"),
+		Short:  'F',
+		Long:   LongName("form"),
 		HasArg: true,
-		Arg: content,
+		Arg:    content,
 	}
 }
 
 func NewRequest(request string) *Option {
 	return &Option{
-		Short: 'X',
-		Long: LongName("request"),
+		Short:  'X',
+		Long:   LongName("request"),
 		HasArg: true,
-		Arg: request,
+		Arg:    request,
 	}
 }
 
 func NewData(data string) *Option {
 	return &Option{
-		Short: 'd',
-		Long: LongName("data"),
+		Short:  'd',
+		Long:   LongName("data"),
 		HasArg: true,
-		Arg: data,
+		Arg:    data,
 	}
 }
 
 func NewNoArgOption(long string, short byte) *Option {
 	return &Option{
 		Short: short,
-		Long: LongName(long),
+		Long:  LongName(long),
 	}
 }
 
 func NewProxy(proxy string) *Option {
 	return &Option{
-		Short: 'x',
-		Long: LongName("proxy"),
+		Short:  'x',
+		Long:   LongName("proxy"),
 		HasArg: true,
-		Arg: proxy,
+		Arg:    proxy,
 	}
 }
 func NewLocation() *Option {
 	return &Option{
 		Short: 'L',
-		Long: LongName("location"),
+		Long:  LongName("location"),
 	}
 }
 func NewMaxRedirs(num string) *Option {
 	return &Option{
-		Long: LongName("max-redirs"),
-		HasArg:true,
-		Arg: num,
+		Long:   LongName("max-redirs"),
+		HasArg: true,
+		Arg:    num,
 	}
 }
 func NewMaxTime(time string) *Option {
 	return &Option{
-		Short: 'm',
-		Long: LongName("max-time"),
-		HasArg:true,
-		Arg: time,
+		Short:  'm',
+		Long:   LongName("max-time"),
+		HasArg: true,
+		Arg:    time,
 	}
 }
