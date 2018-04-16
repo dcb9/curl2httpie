@@ -59,3 +59,40 @@ func NewData(data string) *Option {
 		Arg: data,
 	}
 }
+
+func NewNoArgOption(long string, short byte) *Option {
+	return &Option{
+		Short: short,
+		Long: LongName(long),
+	}
+}
+
+func NewProxy(proxy string) *Option {
+	return &Option{
+		Short: 'x',
+		Long: LongName("proxy"),
+		HasArg: true,
+		Arg: proxy,
+	}
+}
+func NewLocation() *Option {
+	return &Option{
+		Short: 'L',
+		Long: LongName("location"),
+	}
+}
+func NewMaxRedirs(num string) *Option {
+	return &Option{
+		Long: LongName("max-redirs"),
+		HasArg:true,
+		Arg: num,
+	}
+}
+func NewMaxTime(time string) *Option {
+	return &Option{
+		Short: 'm',
+		Long: LongName("max-time"),
+		HasArg:true,
+		Arg: time,
+	}
+}

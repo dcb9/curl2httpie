@@ -47,6 +47,34 @@ func TestHttpie2Curl(t *testing.T) {
 			[]string{"http", "z.cn"},
 			"curl z.cn",
 		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "basic", "example.org", "id==1"},
+			`curl --user "username" --basic example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "example.org", "id==1"},
+			`curl --user "username" --digest example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128",  "example.org", "id==1"},
+			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128",  "example.org", "id==1"},
+			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy", "http:http://foo.bar:3128", "--follow", "example.org", "id==1"},
+			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "example.org", "id==1"},
+			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location --max-redirs "10" example.org?id=1`,
+		},
+		{
+			[]string{"http", "--auth", "username", "--auth-type", "digest", "--proxy","http:http://foo.bar:3128", "--follow", "--max-redirects", "10", "--timeout", "30", "example.org", "id==1"},
+			`curl --user "username" --digest --proxy "http:http://foo.bar:3128" --location --max-redirs "10" --max-time "30" example.org?id=1`,
+		},
 	}
 
 	for _, c := range cases {
@@ -61,7 +89,7 @@ func TestHttpie2Curl(t *testing.T) {
 
 		want := c.want
 		if got := gotStringer.String(); got != want {
-			t.Errorf("Httpie2Curl error got: %s, want: %s, in: %#v", got, want, c.in)
+			t.Errorf("Httpie2Curl error got: %s\n\twant: %s\n\tin: %#v", got, want, c.in)
 		}
 	}
 }

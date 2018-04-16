@@ -120,6 +120,11 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 
 var httpieFlag2CurlOptionTransformerMap = map[string]curlTransformer.FlagTransformer{
 	"auth":       curlTransformer.Auth,
+	"auth-type": curlTransformer.AuthType,
+	"proxy": curlTransformer.Proxy,
+	"follow": curlTransformer.Follow,
+	"max-redirects": curlTransformer.MaxRedirects,
+	"timeout": curlTransformer.Timeout,
 }
 
 func getFileContent(filename string) ([]byte, error){

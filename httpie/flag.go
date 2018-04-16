@@ -44,11 +44,21 @@ func AuthFlagWithArg(auth string) *Flag {
 var JSONFlag = &Flag{ Long: "json", Short: 'j'}
 var FormFlag = &Flag{ Long: "form", Short: 'f'}
 var AuthFlag = &Flag{ Long: "auth", Short: 'a', HasArg: true}
+var AuthTypeFlag = &Flag{ Long: "auth-type", Short: 'A', HasArg: true}
+var ProxyFlag = &Flag{ Long: "proxy", HasArg: true}
+var FollowFlag = &Flag{ Long: "follow", Short:'F', HasArg: false}
+var MaxRedirectsFlag = &Flag{ Long: "max-redirects", HasArg: true}
+var TimeoutFlag = &Flag{ Long: "timeout", HasArg: true}
 
 var AllFlags = []*Flag{
 	JSONFlag,
 	FormFlag,
 	AuthFlag,
+	AuthTypeFlag,
+	ProxyFlag,
+	FollowFlag,
+	MaxRedirectsFlag,
+	TimeoutFlag,
 }
 
 func getFlagsByArgs(args []string) ([]*Flag, error) {
@@ -57,9 +67,17 @@ func getFlagsByArgs(args []string) ([]*Flag, error) {
 	stringValues := make([]*string, len(AllFlags))
 	for i, f := range AllFlags {
 		if f.HasArg {
-			stringValues[i] = CommandLine.StringP(f.Long, string(f.Short), "", "")
+			if f.Short != 0 {
+				stringValues[i] = CommandLine.StringP(f.Long, string(f.Short), "", "")
+			} else {
+				stringValues[i] = CommandLine.String(f.Long, "", "")
+			}
 		} else {
-			boolValues[i] = CommandLine.BoolP(f.Long, string(f.Short), false, "")
+			if f.Short != 0 {
+				boolValues[i] = CommandLine.BoolP(f.Long, string(f.Short), false, "")
+			} else {
+				boolValues[i] = CommandLine.Bool(f.Long, false, "")
+			}
 		}
 	}
 	err := CommandLine.Parse(args)
