@@ -41,24 +41,76 @@ func AuthFlagWithArg(auth string) *Flag {
 	return f
 }
 
-var JSONFlag = &Flag{ Long: "json", Short: 'j'}
-var FormFlag = &Flag{ Long: "form", Short: 'f'}
-var AuthFlag = &Flag{ Long: "auth", Short: 'a', HasArg: true}
-var AuthTypeFlag = &Flag{ Long: "auth-type", Short: 'A', HasArg: true}
-var ProxyFlag = &Flag{ Long: "proxy", HasArg: true}
-var FollowFlag = &Flag{ Long: "follow", Short:'F', HasArg: false}
-var MaxRedirectsFlag = &Flag{ Long: "max-redirects", HasArg: true}
-var TimeoutFlag = &Flag{ Long: "timeout", HasArg: true}
+var (
+	JSONFlag            = &Flag{Long: "json", Short: 'j'}
+	FormFlag            = &Flag{Long: "form", Short: 'f'}
+	PrettyFlag          = &Flag{Long: "pretty", HasArg: true}
+	StyleFlag           = &Flag{Long: "style", Short: 's', HasArg: true}
+	PrintFlag           = &Flag{Long: "print", Short: 'p', HasArg: true}
+	HeadersFlag         = &Flag{Long: "headers", Short: 'h'}
+	BodyFlag            = &Flag{Long: "body", Short: 'b'}
+	VerboseFlag         = &Flag{Long: "verbose", Short: 'v'}
+	AllFlag             = &Flag{Long: "all"}
+	HistoryPrintFlag    = &Flag{Long: "history-print", Short: 'P'}
+	StreamFlag          = &Flag{Long: "stream", Short: 'S'}
+	OutputFlag          = &Flag{Long: "output", Short: 'o'}
+	DownloadFlag        = &Flag{Long: "download", Short: 'd'}
+	ContinueFlag        = &Flag{Long: "continue", Short: 'c'}
+	SessionFlag         = &Flag{Long: "session", HasArg: true}
+	SessionReadOnlyFlag = &Flag{Long: "session-read-only", HasArg: true}
+	CheckStatusFlag     = &Flag{Long: "check-status"}
+	IgnoreStdinFlag     = &Flag{Long: "ignore-stdin", Short: 'I'}
+	HelpFlag            = &Flag{Long: "help"}
+	VersionFlag         = &Flag{Long: "version"}
+	TracebackFlag       = &Flag{Long: "traceback"}
+	DefaultSchemeFlag   = &Flag{Long: "default-scheme", HasArg: true}
+	DebugFlag           = &Flag{Long: "debug"}
+	AuthFlag            = &Flag{Long: "auth", Short: 'a', HasArg: true}
+	AuthTypeFlag        = &Flag{Long: "auth-type", Short: 'A', HasArg: true}
+	ProxyFlag           = &Flag{Long: "proxy", HasArg: true}
+	FollowFlag          = &Flag{Long: "follow", Short: 'F', HasArg: false}
+	MaxRedirectsFlag    = &Flag{Long: "max-redirects", HasArg: true}
+	TimeoutFlag         = &Flag{Long: "timeout", HasArg: true}
+	VerifyFlag          = &Flag{Long: "verify", HasArg: true}
+	SSLFlag             = &Flag{Long: "ssl", HasArg: true}
+	CertFlag            = &Flag{Long: "cert", HasArg: true}
+	CertKeyFlag         = &Flag{Long: "cert-key", HasArg: true}
+)
 
 var AllFlags = []*Flag{
 	JSONFlag,
 	FormFlag,
+	PrettyFlag,
+	StyleFlag,
+	PrintFlag,
+	HeadersFlag,
+	BodyFlag,
+	VerboseFlag,
+	AllFlag,
+	HistoryPrintFlag,
+	StreamFlag,
+	OutputFlag,
+	DownloadFlag,
+	ContinueFlag,
+	SessionFlag,
+	SessionReadOnlyFlag,
+	CheckStatusFlag,
+	IgnoreStdinFlag,
+	HelpFlag,
+	VersionFlag,
+	TracebackFlag,
+	DefaultSchemeFlag,
+	DebugFlag,
 	AuthFlag,
 	AuthTypeFlag,
 	ProxyFlag,
 	FollowFlag,
 	MaxRedirectsFlag,
 	TimeoutFlag,
+	VerifyFlag,
+	SSLFlag,
+	CertFlag,
+	CertKeyFlag,
 }
 
 func getFlagsByArgs(args []string) ([]*Flag, error) {
