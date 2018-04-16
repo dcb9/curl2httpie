@@ -1,13 +1,13 @@
-package transformer
+package httpie
 
 import (
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"errors"
 	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
+	"io/ioutil"
 )
 
 type Transformer func(cl *httpie.CmdLine, o *curl.Option)
@@ -44,6 +44,8 @@ func Method(cl *httpie.CmdLine, o *curl.Option) {
 	cl.SetMethod(m)
 }
 
+var ErrUnknownDataType = errors.New("unknown data type")
+
 func Data(cl *httpie.CmdLine, o *curl.Option) {
 	s := strings.SplitN(o.Arg, "=", 2)
 	if len(s) == 2 {
@@ -56,15 +58,13 @@ func Data(cl *httpie.CmdLine, o *curl.Option) {
 	// try RAW JSON
 	var js json.RawMessage
 	err := json.Unmarshal([]byte(o.Arg[1:len(o.Arg)-1]), &js)
-	if err == nil {
-		cl.DirectedInput = ioutil.NopCloser(strings.NewReader(o.Arg))
-		cl.HasBody = true
-		return
-	} else {
-		fmt.Println(err)
+	if err != nil {
+		panic(ErrUnknownDataType)
 	}
 
-	panic("Unknown data type")
+	cl.DirectedInput = ioutil.NopCloser(strings.NewReader(o.Arg))
+	cl.HasBody = true
+	return
 }
 
 func URL(cl *httpie.CmdLine, o *curl.Option) {

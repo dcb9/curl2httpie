@@ -1,10 +1,16 @@
 package httpie
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type Itemer interface {
-	Item() string
-}
+const (
+	SEP_HEADER    = ":"
+	SEP_URL_PARAM = "=="
+	SEP_DATA      = "="
+	SEP_JSON      = ":="
+	SEP_FILE      = "@"
+)
 
 type Item struct {
 	K string
@@ -12,26 +18,26 @@ type Item struct {
 	S string
 }
 
-func (i *Item) Item() string {
+func (i *Item) String() string {
 	return fmt.Sprintf(`"%s%s%s"`, i.K, i.S, i.V)
 }
 
 func NewHeader(key, val string) *Item {
-	return &Item{key, val, ":"}
+	return &Item{key, val, SEP_HEADER}
 }
 
 func NewURLParam(key, val string) *Item {
-	return &Item{key, val, "=="}
+	return &Item{key, val, SEP_URL_PARAM}
 }
 
 func NewDataField(key, val string) *Item {
-	return &Item{key, val, "="}
+	return &Item{key, val, SEP_DATA}
 }
 
 func NewJSONField(key, val string) *Item {
-	return &Item{key, val, ":="}
+	return &Item{key, val, SEP_JSON}
 }
 
 func NewFileField(key, val string) *Item {
-	return &Item{key, val, "@"}
+	return &Item{key, val, SEP_FILE}
 }

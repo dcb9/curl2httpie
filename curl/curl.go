@@ -1,13 +1,11 @@
 package curl
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"strings"
-	"encoding/json"
 )
-
-var rawCmdlineOptsDir = "./cmdline-opts/"
 
 type Tag string
 type Protocol string
@@ -30,7 +28,25 @@ type Option struct {
 	Body      string
 }
 
-func (o *Option) String() string {
+func (o *Option) String(useLongName bool) string {
+	arg := strings.Replace(o.Arg, `"`, `\"`, -1)
+
+	if o.HasArg {
+		if useLongName {
+			return fmt.Sprintf(`--%s "%s"`, o.Long, arg)
+		}
+
+		return fmt.Sprintf(`-%s "%s"`, string(o.Short), arg)
+	}
+
+	if useLongName {
+		return fmt.Sprintf("--%s", o.Long)
+	}
+
+	return fmt.Sprintf("-%s", string(o.Short))
+}
+
+func (o *Option) dumpStructure() string {
 	hasArg := "false"
 	if o.HasArg {
 		hasArg = "true"
@@ -183,22 +199,27 @@ func isHTTPOption(o Option) bool {
 	return false
 }
 
-func HTTPOptions() (options []*Option) {
+func HTTPOptions() (options []*Option, err error) {
 	data, err := Asset("data/options.json")
 	if err != nil {
-		panic(err)
+		return
 	}
 
 	options = make([]*Option, 0, 256)
 	err = json.Unmarshal(data, &options)
-	if err != nil {
-		panic(err)
-	}
+
 	return
 }
 
-func URLAndOptions(args []string) (string, []*Option) {
-	var availableOptions = HTTPOptions()
+func URLAndOptions(args []string) (string, []*Option, error) {
+	if len(args) == 1 {
+		return args[0], nil, nil
+	}
+
+	var availableOptions, err = HTTPOptions()
+	if err != nil {
+		return "", nil, err
+	}
 
 	url, options := "", make([]*Option, 0, len(args))
 
@@ -249,15 +270,13 @@ func URLAndOptions(args []string) (string, []*Option) {
 		i++
 	}
 
-	if url == "" {
-		for i := range args {
-			if !InIntSlice(indices, i)	 {
-				url = args[i]
-			}
+	for i := range args {
+		if !InIntSlice(indices, i) {
+			url = args[i]
 		}
 	}
 
-	return url, options
+	return url, options, nil
 }
 
 func InIntSlice(s []int, v int) (found bool) {

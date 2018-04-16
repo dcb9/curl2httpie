@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}

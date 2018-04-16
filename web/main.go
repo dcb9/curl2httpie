@@ -1,14 +1,26 @@
 package main
 
 import (
+	"github.com/dcb9/curl2httpie/connector"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/lmika/shellwords"
-	"github.com/dcb9/curl2httpie/connector"
 )
 
-func Httpie(cmd string) string {
-	str := connector.Curl2Httpie(shellwords.Split(cmd))
-	return str
+func Httpie(cmd string) map[string]interface{} {
+	stringer, warnings, err := connector.Convert(shellwords.Split(cmd))
+	if err != nil {
+		return map[string]interface{}{
+			"cmd":      "",
+			"warnings": warnings,
+			"error":    err.Error(),
+		}
+	}
+
+	return map[string]interface{}{
+		"cmd":      stringer.String(),
+		"warnings": warnings,
+		"error":    "",
+	}
 }
 
 func main() {
