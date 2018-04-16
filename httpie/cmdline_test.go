@@ -42,7 +42,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			[]string{"http", "z.cn", "X-API-Token:123"},
 			&CmdLine{
 				URL: "z.cn",
-				Items: []Itemer{
+				Items: []*Item{
 					NewHeader("X-API-Token", "123"),
 				},
 			},
@@ -52,7 +52,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			[]string{"http", "z.cn", `X-API-Token\::123`},
 			&CmdLine{
 				URL: "z.cn",
-				Items: []Itemer{
+				Items: []*Item{
 					NewHeader(`X-API-Token\:`, "123"),
 				},
 			},
@@ -63,7 +63,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			&CmdLine{
 				Method: NewMethod("POST"),
 				URL:    "example.org",
-				Items: []Itemer{
+				Items: []*Item{
 					NewDataField("foo\\=", "bar"),
 				},
 			},
@@ -74,7 +74,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			&CmdLine{
 				Method: NewMethod("POST"),
 				URL:    "example.org",
-				Items: []Itemer{
+				Items: []*Item{
 					NewDataField("foo", "bar"),
 				},
 			},
@@ -85,7 +85,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			&CmdLine{
 				Method: NewMethod("PUT"),
 				URL:    "example.org",
-				Items: []Itemer{
+				Items: []*Item{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("name", "John"),
 				},
@@ -100,7 +100,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			&CmdLine{
 				Method: NewMethod("PUT"),
 				URL:    "example.org",
-				Items: []Itemer{
+				Items: []*Item{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("name", "John"),
 					NewURLParam("id", "1"),
@@ -116,7 +116,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 			&CmdLine{
 				Method: NewMethod("PUT"),
 				URL:    "example.org",
-				Items: []Itemer{
+				Items: []*Item{
 					NewHeader("X-API-Token", "123"),
 					NewDataField("foo\\=", "bar"),
 					NewURLParam("id", "1"),
