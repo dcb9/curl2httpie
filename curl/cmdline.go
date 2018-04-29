@@ -33,7 +33,7 @@ func (cmdlineStringer *CmdLineStringer) String() string {
 	if len(cmdlineStringer.Options) > 0 {
 		parts = append(parts, strings.Join(options, " "))
 	}
-	parts = append(parts, cmdlineStringer.URL)
+	parts = append(parts, fmt.Sprintf("'%s'", cmdlineStringer.URL))
 
 	return strings.Join(parts, " ")
 }

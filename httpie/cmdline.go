@@ -61,7 +61,7 @@ func (cl *CmdLine) String() string {
 		s = append(s, "--form")
 	}
 
-	s = append(s, cl.Method.String(), cl.URL)
+	s = append(s, cl.Method.String(), fmt.Sprintf("'%s'", cl.URL))
 
 	for _, v := range cl.Items {
 		s = append(s, v.String())
