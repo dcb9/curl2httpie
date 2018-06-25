@@ -29,14 +29,14 @@ type Option struct {
 }
 
 func (o *Option) String(useLongName bool) string {
-	arg := strings.Replace(o.Arg, `"`, `\"`, -1)
+	arg := strings.Replace(o.Arg, `'`, `\'`, -1)
 
 	if o.HasArg {
 		if useLongName {
-			return fmt.Sprintf(`--%s "%s"`, o.Long, arg)
+			return fmt.Sprintf(`--%s '%s'`, o.Long, arg)
 		}
 
-		return fmt.Sprintf(`-%s "%s"`, string(o.Short), arg)
+		return fmt.Sprintf(`-%s '%s'`, string(o.Short), arg)
 	}
 
 	if useLongName {

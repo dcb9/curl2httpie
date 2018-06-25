@@ -25,7 +25,7 @@ func (f *Flag) SetArg(arg string) {
 func (f *Flag) String() string {
 	arg := ""
 	if f.HasArg {
-		arg = fmt.Sprintf(` "%s"`, f.Arg)
+		arg = fmt.Sprintf(` '%s'`, f.Arg)
 	}
 	return fmt.Sprintf("--%s%s", f.Long, arg)
 }
