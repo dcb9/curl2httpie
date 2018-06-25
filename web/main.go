@@ -4,10 +4,13 @@ import (
 	"github.com/dcb9/curl2httpie/connector"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/lmika/shellwords"
+	"regexp"
 )
 
+var toOneLineReg = regexp.MustCompile(`[\\]{1}\W*\n`)
 func Httpie(cmd string) map[string]interface{} {
-	stringer, warnings, err := connector.Convert(shellwords.Split(cmd))
+	cmdBytes := toOneLineReg.ReplaceAll([]byte(cmd), nil)
+	stringer, warnings, err := connector.Convert(shellwords.Split(string(cmdBytes)))
 	if err != nil {
 		return map[string]interface{}{
 			"cmd":      "",
