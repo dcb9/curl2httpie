@@ -11,7 +11,6 @@ import (
 var errLogger = log.New(os.Stderr, "", 0)
 
 func main() {
-	fmt.Println(os.Args)
 	cmdStr, warningMessages, err := connector.Convert(os.Args[1:])
 	if len(warningMessages) > 0 {
 		errLogger.Println("warnings:")
