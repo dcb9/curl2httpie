@@ -3,6 +3,8 @@ package curl
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
@@ -12,6 +14,25 @@ import (
 
 type ItemTransformer func(*curl.CmdLine, *httpie.Item)
 type FlagTransformer func(*curl.CmdLine, *httpie.Flag)
+
+// TransURL supports HTTPie url shortcuts for localhost
+func TransURL(url string) string {
+	if url[0] == ':' {
+		if len(url) == 1 {
+			return "localhost/"
+		}
+
+		portRe := regexp.MustCompile(`^[0-9]+`)
+		port := portRe.Find([]byte(url[1:]))
+		if len(port) == 0 {
+			return "localhost" + url[1:]
+		}
+
+		return fmt.Sprintf("%s:%s%s", "localhost", port, url[len(port)+1:])
+	}
+
+	return url
+}
 
 func Method(cl *curl.CmdLine, method *httpie.Method) {
 	cl.Options = append(cl.Options, curl.NewMethod(string(*method)))
@@ -65,7 +86,7 @@ func Data(cl *httpie.CmdLine, o *curl.Option) {
 }
 
 func URL(cl *httpie.CmdLine, o *curl.Option) {
-	cl.SetURL(o.Arg)
+	cl.SetURL(TransURL(o.Arg))
 }
 
 func UserAgent(cl *httpie.CmdLine, o *curl.Option) {

@@ -8,6 +8,18 @@ func TestHttpie2Curl(t *testing.T) {
 		want string
 	}{
 		{
+			[]string{"http", ":/foo"},
+			`curl 'localhost/foo'`,
+		},
+		{
+			[]string{"http", ":3000/bar"},
+			`curl 'localhost:3000/bar'`,
+		},
+		{
+			[]string{"http", ":"},
+			`curl 'localhost/'`,
+		},
+		{
 			[]string{"http", "example.org", "id==1"},
 			`curl 'example.org?id=1'`,
 		},
