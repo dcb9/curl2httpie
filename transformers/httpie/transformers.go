@@ -5,9 +5,10 @@ import (
 	"errors"
 	"strings"
 
+	"io/ioutil"
+
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
-	"io/ioutil"
 )
 
 type Transformer func(cl *httpie.CmdLine, o *curl.Option)
@@ -57,7 +58,7 @@ func Data(cl *httpie.CmdLine, o *curl.Option) {
 
 	// try RAW JSON
 	var js json.RawMessage
-	err := json.Unmarshal([]byte(o.Arg[1:len(o.Arg)-1]), &js)
+	err := json.Unmarshal([]byte(o.Arg), &js)
 	if err != nil {
 		panic(ErrUnknownDataType)
 	}
