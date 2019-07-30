@@ -1,6 +1,7 @@
 travis-pages :
 	go get github.com/gopherjs/gopherjs
 	go get ./...
+	go test ./...
 	cd web && gopherjs build -m -o curl2httpie.js && rm main.go .gitignore
 
 # $ dest=~/Downloads/curl2httpie/ v=v1.x make release
