@@ -8,7 +8,11 @@ func TestCurl2Httpie(t *testing.T) {
 		want string
 	}{
 		{
-			[]string{"curl", "-i", "-u", "username", "-d", `'{"scopes":["public_repo"]}'`, `https://api.github.com/authorizations`},
+			[]string{ "curl", "--request", "POST", "--header", "Content-Type: application/json", "--data", `{"foo":"bar"}`, "https://httpbin.org/anything" },
+			`echo '{"foo":"bar"}' | http --json POST 'https://httpbin.org/anything'`,
+		},
+		{
+			[]string{"curl", "-i", "-u", "username", "-d", `{"scopes":["public_repo"]}`, `https://api.github.com/authorizations`},
 			`echo '{"scopes":["public_repo"]}' | http --auth 'username' --form POST 'https://api.github.com/authorizations'`,
 		},
 		{

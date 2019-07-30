@@ -73,7 +73,7 @@ func (cl *CmdLine) String() string {
 		if err != nil {
 			fmt.Println("Skipped: Read DirectedInput error", err.Error())
 		} else {
-			s = append([]string{"echo", string(bytes), "|"}, s...)
+			s = append([]string{"echo", fmt.Sprintf("'%s'", bytes), "|"}, s...)
 			cl.DirectedInput.Close()
 		}
 	}
