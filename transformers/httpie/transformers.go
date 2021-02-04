@@ -3,12 +3,10 @@ package httpie
 import (
 	"encoding/json"
 	"errors"
-	"strings"
-
-	"io/ioutil"
-
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
+	"io/ioutil"
+	"strings"
 )
 
 type Transformer func(cl *httpie.CmdLine, o *curl.Option)

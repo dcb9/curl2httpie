@@ -2,10 +2,9 @@ package curl
 
 import (
 	"fmt"
-	"regexp"
-
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
+	"regexp"
 )
 
 type ItemTransformer func(*curl.CmdLine, *httpie.Item)
