@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>curl-to-httpie: Convert curl commands to HTTPie commands</title>
+    <style>
+#convert_btn {
+  margin: 10px 0 14px;
+}
+#input, #convert_btn, #output {
+  padding: 5px;
+  font-size: 150%;
+}
+@media screen and (min-width: 801px) {
+  #input, #output {
+    width: 48.5rem;
+  }
+}
+@media screen and (max-width: 800px) {
+  #input, #output {
+    width: 99%;
+  }
+}
+#output {
+  border: 1px solid;
+  margin-bottom: 25px;
+}
+#warnings {
+  border: 1px dashed #e62739;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+.hidden {
+  display: none;
+}
+    </style>
+  </head>
+  <body>
+    <h1>cURL to HTTPie online</h1>
+    <h2>Instantly convert arguments between <a href="https://curl.haxx.se/">cURL</a> and <a href="https://httpie.org/">HTTPie</a></h2>
+
+    <p>
+    There's probably bugs; please <a href="https://github.com/dcb9/curl2httpie">contribute on GitHub</a>!
+    </p>
+
+    <textarea id="input" rows="3" placeholder="Paste your cURL or HTTPie here"></textarea>
+    <div><button id="convert_btn">Convert</button></div>
+    <textarea id="output" rows="3" readonly></textarea>
+    <div id="warnings" class="hidden">
+      Warnings
+      <ul id="warnings_list">
+      </ul>
+    </div>
+
+    <p style="text-align: left;">&copy; <script>document.write(new Date().getFullYear());</script> Dcb9 - <a href="https://github.com/dcb9/curl2httpie">View on GitHub</a></p>
+  </body>
+  <script src="curl2httpie.js"></script>
+  <script src="web.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-97868703-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</html>

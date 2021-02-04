@@ -1,8 +1,12 @@
-travis-pages :
-	go get github.com/gopherjs/gopherjs
-	go get ./...
-	go test ./...
-	cd web && gopherjs build -m -o curl2httpie.js && rm main.go .gitignore
+deps :
+	cd ../ \
+	&& which go1.12.16 \
+	|| (go get golang.org/dl/go1.12.16 && go1.12.16 download)
+	which gopherjs || go get github.com/gopherjs/gopherjs
+
+.PHONY: curl2httpie.js
+curl2httpie.js : deps
+	GOPHERJS_GOROOT="/Users/bob/sdk/go1.12.16" gopherjs build -m -o web/curl2httpie.js ./cmd/curl2httpie.js
 
 generateOptions :
 	go run cmd/generateOptions/main.go -path="$(path)"
