@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Copied from https://tutorialedge.net/golang/improving-go-workflow-with-git-hooks/
+
+## this will retrieve all of the .go files that have been
+## changed since the last commit
+STAGED_GO_FILES=$(git diff --cached --name-only -- '*.go')
+
+## we can check to see if this is empty
+if [[ ! -z "$STAGED_GO_FILES" ]]; then
+    for file in $STAGED_GO_FILES; do
+        ## format our file
+        echo go fmt $file
+        go fmt $file > /dev/null
+        ## add any potential changes from our formatting to the 
+        ## commit
+        git add $file
+    done
+fi

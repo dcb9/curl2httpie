@@ -11,3 +11,6 @@ release :
 generateOptions :
 	go run cmd/generateOptions/main.go -path="$(path)"
 	go-bindata -ignore .gitignore -pkg curl -o ./curl/bindata.go data/
+
+initGithooks:
+	git config core.hooksPath .githooks
