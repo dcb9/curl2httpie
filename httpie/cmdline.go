@@ -15,6 +15,7 @@ type CmdLine struct {
 	URL           string
 	Items         []*Item
 	HasBody       bool
+	ContentType   string
 	DirectedInput io.ReadCloser
 }
 
@@ -35,30 +36,30 @@ func (cl *CmdLine) AddItem(i *Item) {
 }
 
 func (cl *CmdLine) String() string {
-	if cl.Method == nil {
-		cl.Method = NewMethod("")
-	}
-
 	// slice
 	s := make([]string, 0, len(cl.Flags)+len(cl.Items)+3) // http method url
 	s = append(s, "http")
 	// flags
 
 	// default flag
-	foundContentType := false
 	for _, v := range cl.Flags {
-		if v.Long == "json" || v.Long == "form" {
-			foundContentType = true
-		}
 		s = append(s, v.String())
 	}
 
-	if !foundContentType && cl.HasBody && cl.Method.String() == "GET" {
-		cl.SetMethod(NewMethod("POST")) // default post if has body
+	if cl.Method == nil {
+		if cl.HasBody {
+			cl.Method = NewMethod("POST") // use POST as default, if it has body and no specified method
+		} else {
+			cl.Method = NewMethod("GET")
+		}
 	}
 
-	if !foundContentType && cl.Method.String() != "GET" {
-		s = append(s, "--form")
+	if cl.ContentType == "" {
+		if cl.Method.String() != "GET" {
+			s = append(s, "--form") // use form as default
+		}
+	} else {
+		s = append(s, "--"+cl.ContentType)
 	}
 
 	s = append(s, cl.Method.String(), fmt.Sprintf("'%s'", cl.URL))

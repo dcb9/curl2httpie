@@ -21,14 +21,12 @@ func Header(cl *httpie.CmdLine, o *curl.Option) {
 	lk := strings.ToLower(k)
 	if lk == "content-type" {
 		if strings.HasSuffix(v, "json") {
-			f := httpie.NewFlag("json")
-			cl.AddFlag(f)
+			cl.ContentType = "json"
 			return
 		}
 	} else if lk == "accept" {
 		if strings.HasSuffix(v, "json") {
-			f := httpie.NewFlag("json")
-			cl.AddFlag(f)
+			cl.ContentType = "json"
 			return
 		}
 	}

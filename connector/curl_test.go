@@ -8,7 +8,7 @@ func TestCurl2Httpie(t *testing.T) {
 		want string
 	}{
 		{
-			[]string{ "curl", "--request", "POST", "--header", "Content-Type: application/json", "--data", `{"foo":"bar"}`, "https://httpbin.org/anything" },
+			[]string{"curl", "--request", "POST", "--header", "Content-Type: application/json", "--data", `{"foo":"bar"}`, "https://httpbin.org/anything"},
 			`echo '{"foo":"bar"}' | http --json POST 'https://httpbin.org/anything'`,
 		},
 		{
@@ -66,6 +66,9 @@ func TestCurl2Httpie(t *testing.T) {
 		}, {
 			[]string{"curl", "-H", "Host: foo.bar.com", "-H", "Accept: */*", "-H", "User-Agent: debug-MyAppName/ CFNetwork/893.14 Darwin/17.4.0", "-H", "Accept-Language: en-us", "--data", "client_id=foobarfoobarfoobar&client_secret=bazquzbazquz&grant_type=password&password=SomePasswordHere&scope=user&username=first.last%2B1%40domain.com", "--compressed", "https://stage.buildsafely.com/api/oauth/token"},
 			`http --form POST 'https://stage.buildsafely.com/api/oauth/token' 'Host:foo.bar.com' 'Accept:*/*' 'User-Agent:debug-MyAppName/ CFNetwork/893.14 Darwin/17.4.0' 'Accept-Language:en-us' 'client_id=foobarfoobarfoobar&client_secret=bazquzbazquz&grant_type=password&password=SomePasswordHere&scope=user&username=first.last%2B1%40domain.com'`,
+		}, {
+			[]string{"curl", `https://xxx/v1/tokens`, "-H", `User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:69.0) Gecko/20100101 Firefox/69.0`, "-H", `Accept: application/vnd.api+json`, "-H", `Accept-Language: en-US,en;q=0.5`, "--compressed", "-H", `Content-Type: application/vnd.api+json`, "-H", `Origin: https://xxx`, "-H", `Connection: keep-alive`, "-H", `Referer: https://xxx`, "-H", `Pragma: no-cache`, "-H", `Cache-Control: no-cache`, "--data", `{"auth":{"email":"xxx","password":"xxx"}}`},
+			`echo '{"auth":{"email":"xxx","password":"xxx"}}' | http --json POST 'https://xxx/v1/tokens' 'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:69.0) Gecko/20100101 Firefox/69.0' 'Accept-Language:en-US,en;q=0.5' 'Origin:https://xxx' 'Connection:keep-alive' 'Referer:https://xxx' 'Pragma:no-cache' 'Cache-Control:no-cache'`,
 		},
 	}
 
