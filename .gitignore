@@ -17,3 +17,7 @@
 
 .idea/
 /vendor
+/build
+/.DS_Store
+/curl2httpie
+/curl2httpie-*.zip
