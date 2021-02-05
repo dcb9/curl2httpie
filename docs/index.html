@@ -12,7 +12,7 @@
 }
 @media screen and (min-width: 801px) {
   #input, #output {
-    width: 48.5rem;
+    width: 90%;
   }
 }
 @media screen and (max-width: 800px) {
@@ -22,8 +22,8 @@
 }
 #output {
   border: 1px solid;
-  margin-bottom: 25px;
 }
+
 #warnings {
   border: 1px dashed #e62739;
   width: fit-content;
@@ -43,9 +43,9 @@
     There's probably bugs; please <a href="https://github.com/dcb9/curl2httpie">contribute on GitHub</a>!
     </p>
 
-    <textarea id="input" rows="3" placeholder="Paste your cURL or HTTPie here"></textarea>
+    <textarea id="input" rows="7" placeholder="Paste your cURL or HTTPie here"></textarea>
     <div><button id="convert_btn">Convert</button></div>
-    <textarea id="output" rows="3" readonly></textarea>
+    <textarea id="output" rows="5" readonly></textarea>
     <div id="warnings" class="hidden">
       Warnings
       <ul id="warnings_list">
