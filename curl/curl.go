@@ -1,7 +1,6 @@
 package curl
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -199,16 +198,10 @@ func isHTTPOption(o Option) bool {
 	return false
 }
 
+var optionList []*Option
+
 func HTTPOptions() (options []*Option, err error) {
-	data, err := Asset("data/options.json")
-	if err != nil {
-		return
-	}
-
-	options = make([]*Option, 0, 256)
-	err = json.Unmarshal(data, &options)
-
-	return
+	return optionList, nil
 }
 
 func URLAndOptions(args []string) (string, []*Option, error) {

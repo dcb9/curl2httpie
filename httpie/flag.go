@@ -2,7 +2,6 @@ package httpie
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	flag "github.com/spf13/pflag"
 )
 
@@ -134,7 +133,7 @@ func getFlagsByArgs(args []string) ([]*Flag, error) {
 	}
 	err := CommandLine.Parse(args)
 	if err != nil {
-		return nil, errors.Wrap(err, "GetFlagsByArgs")
+		return nil, fmt.Errorf("GetFlagsByArgs: %w", err)
 	}
 	flags := make([]*Flag, 0, len(args))
 	for i, f := range AllFlags {

@@ -2,7 +2,6 @@ package httpie
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -98,7 +97,7 @@ func NewCmdLineByArgs(args []string) (*CmdLine, error) {
 	var err error
 	cmdLine.Flags, err = getFlagsByArgs(args)
 	if err != nil {
-		return nil, errors.Wrap(err, "NewCmdLineByArgs")
+		return nil, fmt.Errorf("NewCmdLineByArgs: %w", err)
 	}
 
 	cmdLine.Method, cmdLine.URL, cmdLine.Items, err = getMethodURLAndItems(args)
@@ -126,7 +125,7 @@ func getMethodURLAndItems(args []string) (method *Method, url string, items []*I
 			return
 		}
 		if len(flags) < 1 {
-			err = errors.New("invalid flags")
+			err = fmt.Errorf("invalid flags")
 			return
 		}
 		if flags[0].HasArg {
@@ -187,7 +186,7 @@ func getItemByArg(arg string) (*Item, error) {
 		}
 	}
 
-	return nil, errors.New("unknown item")
+	return nil, fmt.Errorf("unknown item")
 }
 
 var httpMethods = []string{

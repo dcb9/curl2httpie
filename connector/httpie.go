@@ -3,7 +3,6 @@ package connector
 import (
 	"fmt"
 
-	"encoding/json"
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
 	curlTransformer "github.com/dcb9/curl2httpie/transformers/curl"
@@ -88,9 +87,9 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 				if err != nil {
 					return
 				}
-				data[i.K] = json.RawMessage(bytes)
+				data[i.K] = bytes
 			} else {
-				data[i.K] = json.RawMessage(i.V)
+				data[i.K] = i.V
 			}
 		}
 	}
@@ -101,10 +100,7 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 	if hasData {
 		if isJSONContentType {
 			var bs []byte
-			bs, err = json.Marshal(data)
-			if err != nil {
-				return
-			}
+			// FIXME
 			curlCmdLine.Options = append(curlCmdLine.Options, curl.NewJSONHeader(), curl.NewData(string(bs)))
 		} else {
 			fields := make([]string, 0, len(data))
