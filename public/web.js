@@ -51,3 +51,7 @@ convertBtn.addEventListener("click", function(event) {
   event.preventDefault()
   convert()
 })
+
+window.addEventListener('load', (event) => {
+  getElementByID('cicd').innerHTML = curl2httpie.Version()
+});

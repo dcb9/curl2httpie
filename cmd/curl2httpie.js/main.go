@@ -1,13 +1,20 @@
 package main
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/dcb9/curl2httpie/connector"
+	"github.com/dcb9/curl2httpie/constant"
 	"github.com/dcb9/curl2httpie/shellwords"
 	"github.com/gopherjs/gopherjs/js"
-	"regexp"
 )
 
 var toOneLineReg = regexp.MustCompile(`[\\]{1}\W*\n`)
+
+func Version() string {
+	return fmt.Sprintf("Build at <i>%s</i> Version: <i>%s</i> Commit: <a href=\"https://github.com/dcb9/curl2httpie/commit/%s\">%s</a>", constant.BuildAt, constant.Version, constant.Commit, constant.Commit[:7])
+}
 
 func Httpie(cmd string) map[string]interface{} {
 	cmdBytes := toOneLineReg.ReplaceAll([]byte(cmd), nil)
@@ -29,6 +36,7 @@ func Httpie(cmd string) map[string]interface{} {
 
 func main() {
 	js.Global.Set("curl2httpie", map[string]interface{}{
-		"Do": Httpie,
+		"Do":      Httpie,
+		"Version": Version,
 	})
 }

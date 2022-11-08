@@ -2,10 +2,11 @@ NAME := curl2httpie
 PACKAGE_NAME := github.com/dcb9/curl2httpie
 VERSION := `git describe --dirty`
 COMMIT := `git rev-parse HEAD`
+BUILD_AT := `date`
 
 PLATFORM := linux
 BUILD_DIR := build
-VAR_SETTING := -X $(PACKAGE_NAME)/constant.Version=$(VERSION) -X $(PACKAGE_NAME)/constant.Commit=$(COMMIT)
+VAR_SETTING := -X \"$(PACKAGE_NAME)/constant.Version=$(VERSION)\" -X \"$(PACKAGE_NAME)/constant.Commit=$(COMMIT)\" -X \"$(PACKAGE_NAME)/constant.BuildAt=$(BUILD_AT)\"
 GOBUILD = go build -ldflags="-s -w $(VAR_SETTING)" -trimpath -o $(BUILD_DIR)
 
 release: clean darwin-amd64.zip linux-amd64.zip freebsd-amd64.zip windows-amd64.zip curl2httpie.js
@@ -25,7 +26,9 @@ generateOptions : cloneCurlSrc
 .PHONY: curl2httpie.js
 curl2httpie.js :
 	@echo "\033[0;32mBuilding curl2httpie.js ...\033[0m"
+	go run -ldflags="$(VAR_SETTING)" ./cmd/fillBuildInfo/main.go
 	gopherjs build -m -o public/curl2httpie.js ./cmd/curl2httpie.js
+	git checkout constant/
 
 initGithooks:
 	git config core.hooksPath .githooks
