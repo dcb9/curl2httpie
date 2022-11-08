@@ -31,7 +31,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.6`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -53,7 +53,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.6`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -64,7 +64,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.5`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -75,7 +75,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.9.8`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -97,7 +97,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.9.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -108,7 +108,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `5.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -119,7 +119,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.9`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -130,7 +130,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -141,18 +141,18 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.10`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
 		Long:      "connect-timeout",
 		HasArg:    true,
-		Arg:       "<seconds>",
+		Arg:       "<fractional seconds>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -174,7 +174,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.8`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -185,7 +185,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.9`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -196,9 +196,39 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
-		Mutexed:   []LongName{},
-		Requires:  []Feature{},
+		Added: `4.9
+Multi: append
+---
+Pass the data to the HTTP server in the Cookie header. It is supposedly the
+data previously received from the server in a "Set-Cookie:" line. The data
+should be in the format "NAME1=VALUE1; NAME2=VALUE2". This makes curl use the
+cookie header with this content explicitly in all outgoing request(s). If
+multiple requests are done due to authentication, followed redirects or
+similar, they will all get this cookie passed on.
+
+If no '=' symbol is used in the argument, it is instead treated as a filename
+to read previously stored cookie from. This option also activates the cookie
+engine which will make curl record incoming cookies, which may be handy if
+you are using this in combination with the --location option or do multiple URL
+transfers on the same invoke. If the file name is exactly a minus ("-"), curl
+will instead read the contents from stdin.
+
+The file format of the file to read cookies from should be plain HTTP headers
+(Set-Cookie style) or the Netscape/Mozilla cookie file format.
+
+The file specified with --cookie is only used as input. No cookies will be
+written to the file. To store cookies, use the --cookie-jar option.
+
+If you use the Set-Cookie file format and do not specify a domain then the
+cookie is not sent since the domain will never match. To address this, set a
+domain in Set-Cookie line (doing that will include sub-domains) or preferably:
+use the Netscape format.
+
+Users often want to both read cookies from a file and write updated cookies
+back to a file, so using both --cookie and --cookie-jar in the same command
+line is common.`,
+		Mutexed:  []LongName{},
+		Requires: []Feature{},
 	}, {
 		Short:     0,
 		Long:      "create-dirs",
@@ -207,7 +237,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.10.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -240,7 +270,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.2`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -251,7 +281,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.2`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -295,7 +325,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.6`,
 		Mutexed:   []LongName{`basic`, `ntlm`, `negotiate`},
 		Requires:  []Feature{},
 	}, {
@@ -306,7 +336,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `5.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -332,6 +362,39 @@ func init() {
 		Mutexed:   []LongName{},
 		Requires:  []Feature{`c-ares`},
 	}, {
+		Short:     0,
+		Long:      "doh-cert-status",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.76.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "doh-insecure",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.76.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "doh-url",
+		HasArg:    true,
+		Arg:       "<URL>",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.62.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
 		Short:     68,
 		Long:      "dump-header",
 		HasArg:    true,
@@ -339,7 +402,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `FTP`},
-		Added:     ``,
+		Added:     `5.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -350,7 +413,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -361,7 +424,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.9.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -409,6 +472,17 @@ func init() {
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
+		Short:     0,
+		Long:      "fail-with-body",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{`HTTP`},
+		Added:     `7.76.0`,
+		Mutexed:   []LongName{`fail`},
+		Requires:  []Feature{},
+	}, {
 		Short:     102,
 		Long:      "fail",
 		HasArg:    false,
@@ -416,8 +490,8 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
-		Mutexed:   []LongName{},
+		Added:     `4.0`,
+		Mutexed:   []LongName{`fail-with-body`},
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
@@ -432,13 +506,24 @@ func init() {
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
+		Long:      "form-escape",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{`HTTP`},
+		Added:     `7.81.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
 		Long:      "form-string",
 		HasArg:    true,
 		Arg:       "<name=string>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `SMTP`, `IMAP`},
-		Added:     ``,
+		Added:     `7.13.2`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -449,7 +534,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `SMTP`, `IMAP`},
-		Added:     ``,
+		Added:     `5.0`,
 		Mutexed:   []LongName{`data`, `head`, `upload-file`},
 		Requires:  []Feature{},
 	}, {
@@ -460,7 +545,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.8.1`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -471,7 +556,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.6`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -504,7 +589,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `FTP`, `FILE`},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -514,7 +599,7 @@ func init() {
 		Arg:       "<header/@file>",
 		Magic:     "",
 		Tags:      []Tag{},
-		Protocols: []Protocol{`HTTP`},
+		Protocols: []Protocol{`HTTP`, `IMAP`, `SMTP`},
 		Added:     ``,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
@@ -526,7 +611,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -548,7 +633,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.64.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -559,8 +644,8 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
-		Mutexed:   []LongName{`http1.1`, `http2`},
+		Added:     `7.9.1`,
+		Mutexed:   []LongName{`http1.1`, `http2`, `http2-prior-knowledge`, `http3`},
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
@@ -571,7 +656,7 @@ func init() {
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`HTTP`},
 		Added:     `7.33.0`,
-		Mutexed:   []LongName{`http1.0`, `http2`},
+		Mutexed:   []LongName{`http1.0`, `http2`, `http2-prior-knowledge`, `http3`},
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
@@ -582,7 +667,7 @@ func init() {
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`HTTP`},
 		Added:     `7.49.0`,
-		Mutexed:   []LongName{`http1.1`, `http1.0`, `http2`},
+		Mutexed:   []LongName{`http1.1`, `http1.0`, `http2`, `http3`},
 		Requires:  []Feature{`HTTP/2`},
 	}, {
 		Short:     0,
@@ -593,7 +678,7 @@ func init() {
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`HTTP`},
 		Added:     `7.33.0`,
-		Mutexed:   []LongName{`http1.1`, `http1.0`, `http2-prior-knowledge`},
+		Mutexed:   []LongName{`http1.1`, `http1.0`, `http2-prior-knowledge`, `http3`},
 		Requires:  []Feature{`HTTP/2`},
 	}, {
 		Short:     0,
@@ -614,7 +699,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`FTP`, `HTTP`},
-		Added:     ``,
+		Added:     `7.14.1`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -625,7 +710,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.8`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -635,8 +720,8 @@ func init() {
 		Arg:       "",
 		Magic:     "",
 		Tags:      []Tag{},
-		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Protocols: []Protocol{`TLS`, `SFTP`, `SCP`},
+		Added:     `7.10`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -647,8 +732,19 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.3`,
 		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "json",
+		HasArg:    true,
+		Arg:       "<data>",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{`HTTP`},
+		Added:     ``,
+		Mutexed:   []LongName{`form`, `head`, `upload-file`},
 		Requires:  []Feature{},
 	}, {
 		Short:     106,
@@ -658,7 +754,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.9.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -680,7 +776,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.9.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -691,7 +787,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`, `SSH`},
-		Added:     ``,
+		Added:     `7.9.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -713,7 +809,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.10`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -735,7 +831,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.4`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -746,7 +842,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `4.9`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -757,7 +853,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `5.2`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -767,8 +863,8 @@ func init() {
 		Arg:       "<bytes>",
 		Magic:     "",
 		Tags:      []Tag{},
-		Protocols: []Protocol{},
-		Added:     ``,
+		Protocols: []Protocol{`FTP`, `HTTP`, `MQTT`},
+		Added:     `7.10.8`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -779,18 +875,18 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.5`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
 		Short:     109,
 		Long:      "max-time",
 		HasArg:    true,
-		Arg:       "<seconds>",
+		Arg:       "<fractional seconds>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -803,7 +899,7 @@ func init() {
 		Protocols: []Protocol{},
 		Added:     `7.27.0`,
 		Mutexed:   []LongName{},
-		Requires:  []Feature{`metalink`},
+		Requires:  []Feature{},
 	}, {
 		Short:     0,
 		Long:      "negotiate",
@@ -812,7 +908,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.6`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -834,7 +930,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.9.8`,
 		Mutexed:   []LongName{`netrc`},
 		Requires:  []Feature{},
 	}, {
@@ -845,7 +941,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.6`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -867,7 +963,18 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `6.5`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "no-clobber",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.83.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -878,7 +985,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.18.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -933,7 +1040,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.22.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -944,7 +1051,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.10.6`,
 		Mutexed:   []LongName{`basic`, `negotiate`, `digest`, `anyauth`},
 		Requires:  []Feature{`TLS`},
 	}, {
@@ -954,8 +1061,8 @@ func init() {
 		Arg:       "<token>",
 		Magic:     "",
 		Tags:      []Tag{},
-		Protocols: []Protocol{`IMAP`, `POP3`, `SMTP`, `HTTP`},
-		Added:     ``,
+		Protocols: []Protocol{`IMAP`, `LDAP`, `POP3`, `SMTP`, `HTTP`},
+		Added:     `7.33.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -994,8 +1101,8 @@ func init() {
 	}, {
 		Short:     0,
 		Long:      "parallel-max",
-		HasArg:    false,
-		Arg:       "",
+		HasArg:    true,
+		Arg:       "<num>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
@@ -1021,7 +1128,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`SSH`, `TLS`},
-		Added:     ``,
+		Added:     `7.9.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1043,7 +1150,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.39.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1098,7 +1205,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `5.10`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1153,7 +1260,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.12.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1230,7 +1337,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.12.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1274,7 +1381,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.52.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1296,7 +1403,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.10.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1318,7 +1425,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.59.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1345,13 +1452,24 @@ func init() {
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
+		Long:      "proxy-ssl-auto-client-cert",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.77.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
 		Long:      "proxy-tls13-ciphers",
 		HasArg:    true,
 		Arg:       "<ciphersuite list>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.61.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1406,7 +1524,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1417,7 +1535,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1428,7 +1546,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.19.4`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1439,7 +1557,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1450,7 +1568,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1461,7 +1579,18 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `FTP`, `SFTP`, `FILE`},
-		Added:     ``,
+		Added:     `4.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "rate",
+		HasArg:    true,
+		Arg:       "<max request rate>",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.84.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1494,7 +1623,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `7.20.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1516,7 +1645,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1527,14 +1656,25 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.9`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "remove-on-error",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.83.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
 		Short:     0,
 		Long:      "request-target",
-		HasArg:    false,
-		Arg:       "",
+		HasArg:    true,
+		Arg:       "<path>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
@@ -1545,11 +1685,11 @@ func init() {
 		Short:     88,
 		Long:      "request",
 		HasArg:    true,
-		Arg:       "<command>",
+		Arg:       "<method>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `6.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1659,7 +1799,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `5.9`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1670,7 +1810,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1769,7 +1909,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1780,7 +1920,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1792,6 +1932,17 @@ func init() {
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
 		Added:     `7.25.0`,
+		Mutexed:   []LongName{},
+		Requires:  []Feature{},
+	}, {
+		Short:     0,
+		Long:      "ssl-auto-client-cert",
+		HasArg:    false,
+		Arg:       "",
+		Magic:     "",
+		Tags:      []Tag{},
+		Protocols: []Protocol{},
+		Added:     `7.77.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1824,7 +1975,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`SSL`},
-		Added:     ``,
+		Added:     `5.9`,
 		Mutexed:   []LongName{`sslv3`, `tlsv1`, `tlsv1.1`, `tlsv1.2`},
 		Requires:  []Feature{`TLS`},
 	}, {
@@ -1835,18 +1986,18 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`SSL`},
-		Added:     ``,
+		Added:     `5.9`,
 		Mutexed:   []LongName{`sslv2`, `tlsv1`, `tlsv1.1`, `tlsv1.2`},
 		Requires:  []Feature{`TLS`},
 	}, {
 		Short:     0,
 		Long:      "stderr",
-		HasArg:    false,
-		Arg:       "",
+		HasArg:    true,
+		Arg:       "<file>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `6.2`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1868,7 +2019,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.54.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1901,7 +2052,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.7`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1912,9 +2063,21 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`, `FTP`},
-		Added:     ``,
-		Mutexed:   []LongName{},
-		Requires:  []Feature{},
+		Added: `5.8
+See-also: etag-compare remote-time
+Multi: single
+---
+Request a file that has been modified later than the given time and date, or
+one that has been modified before that time. The <date expression> can be all
+sorts of date strings or if it does not match any internal ones, it is taken as
+a filename and tries to get the modification date (mtime) from <file>
+instead. See the *curl_getdate(3)* man pages for date expression details.
+
+Start the date expression with a dash (-) to make it request for a document
+that is older than the given date/time, default is a document that is newer
+than the specified date/time.`,
+		Mutexed:  []LongName{},
+		Requires: []Feature{},
 	}, {
 		Short:     0,
 		Long:      "tls-max",
@@ -1934,7 +2097,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`TLS`},
-		Added:     ``,
+		Added:     `7.61.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -1951,8 +2114,8 @@ func init() {
 	}, {
 		Short:     0,
 		Long:      "tlspassword",
-		HasArg:    false,
-		Arg:       "",
+		HasArg:    true,
+		Arg:       "<string>",
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
@@ -2022,7 +2185,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{`Versions`},
 		Protocols: []Protocol{`SSL`},
-		Added:     ``,
+		Added:     `7.9.2`,
 		Mutexed:   []LongName{`tlsv1.1`, `tlsv1.2`, `tlsv1.3`},
 		Requires:  []Feature{`TLS`},
 	}, {
@@ -2044,7 +2207,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.9.7`,
 		Mutexed:   []LongName{`trace`, `verbose`},
 		Requires:  []Feature{},
 	}, {
@@ -2066,7 +2229,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.9.7`,
 		Mutexed:   []LongName{`verbose`, `trace-ascii`},
 		Requires:  []Feature{},
 	}, {
@@ -2088,7 +2251,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2099,7 +2262,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.5`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2110,7 +2273,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{`HTTP`},
-		Added:     ``,
+		Added:     `4.5.1`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2121,7 +2284,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2132,7 +2295,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{`trace`, `trace-ascii`},
 		Requires:  []Feature{},
 	}, {
@@ -2143,7 +2306,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `4.0`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2154,7 +2317,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `6.5`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}, {
@@ -2165,7 +2328,7 @@ func init() {
 		Magic:     "",
 		Tags:      []Tag{},
 		Protocols: []Protocol{},
-		Added:     ``,
+		Added:     `7.21.3`,
 		Mutexed:   []LongName{},
 		Requires:  []Feature{},
 	}}

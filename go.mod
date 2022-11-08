@@ -1,6 +1,6 @@
 module github.com/dcb9/curl2httpie
 
-go 1.15
+go 1.18
 
 require (
 	github.com/gopherjs/gopherjs v0.0.0-20210202160940-bed99a852dfe

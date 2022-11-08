@@ -1,0 +1,32 @@
+name: Build and deploy
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Setup Golang Environment
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 'go1.18.4'
+
+      - name: Install dependence
+      - run: go get ./...
+      - run: go install github.com/gopherjs/gopherjs@v1.18.0-beta1
+
+      - name: Generate JS
+      - run: make curl2httpie.js
+
+      - name: Deploy to netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=public --prod

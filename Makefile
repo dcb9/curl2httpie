@@ -22,18 +22,10 @@ generateOptions : cloneCurlSrc
 	go fmt curl/optionList.go > /dev/null
 	@echo
 
-curl2httpie.js.deps : generateOptions
-	@echo "\033[0;32mInstalling gopherjs and it's deps...\033[0m"
-	cd ../ \
-	&& which go1.12.16 \
-	|| (go get golang.org/dl/go1.12.16 && go1.12.16 download)
-	which gopherjs || go get github.com/gopherjs/gopherjs
-	@echo
-
 .PHONY: curl2httpie.js
-curl2httpie.js : curl2httpie.js.deps
+curl2httpie.js :
 	@echo "\033[0;32mBuilding curl2httpie.js ...\033[0m"
-	GOPHERJS_GOROOT="/Users/bob/sdk/go1.12.16" gopherjs build -m -o docs/curl2httpie.js ./cmd/curl2httpie.js
+	gopherjs build -m -o public/curl2httpie.js ./cmd/curl2httpie.js
 
 initGithooks:
 	git config core.hooksPath .githooks
