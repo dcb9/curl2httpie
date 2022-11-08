@@ -1,7 +1,11 @@
 NAME := curl2httpie
 PACKAGE_NAME := github.com/dcb9/curl2httpie
-VERSION := `git describe --dirty`
-COMMIT := `git rev-parse HEAD`
+
+VERSION ?= $(shell git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
+GITHUB_SHA ?= $(shell git rev-parse --short HEAD)
+
+VERSION := ${VERSION}
+COMMIT := ${GITHUB_SHA}
 BUILD_AT := `date`
 
 PLATFORM := linux
@@ -36,32 +40,33 @@ initGithooks:
 clean:
 	@rm -rf $(BUILD_DIR)
 	@rm -f curl2httpie
-	@rm -f curl2httpie-*.zip
+	@rm -f artifacts
+	@mkdir artifacts
 
 test:
 	go test ./...
 
 %.zip: %
-	@zip -du $(NAME)-$@ -j $(BUILD_DIR)/$</*
+	@zip -du artifacts/$(NAME)-$@ -j $(BUILD_DIR)/$</*
 	@echo "\033[0;32m<<< ---- $(NAME)-$@\033[0m"
 	@echo
 
-darwin-amd64: generateOptions
+darwin-amd64:
 	@echo "\033[0;32mBuilding $(NAME) for $@...\033[0m"
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=amd64 GOOS=darwin $(GOBUILD)/$@
 
-linux-amd64: generateOptions
+linux-amd64:
 	@echo "\033[0;32mBuilding $(NAME) for $@...\033[0m"
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=amd64 GOOS=linux $(GOBUILD)/$@
 
-freebsd-amd64: generateOptions
+freebsd-amd64:
 	@echo "\033[0;32mBuilding $(NAME) for $@...\033[0m"
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=amd64 GOOS=freebsd $(GOBUILD)/$@
 
-windows-amd64: generateOptions
+windows-amd64:
 	@echo "\033[0;32mBuilding $(NAME) for $@...\033[0m"
 	mkdir -p $(BUILD_DIR)/$@
 	GOARCH=amd64 GOOS=windows $(GOBUILD)/$@
