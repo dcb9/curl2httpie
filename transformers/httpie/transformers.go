@@ -3,10 +3,11 @@ package httpie
 import (
 	"encoding/json"
 	"errors"
-	"github.com/dcb9/curl2httpie/curl"
-	"github.com/dcb9/curl2httpie/httpie"
 	"io/ioutil"
 	"strings"
+
+	"github.com/dcb9/curl2httpie/curl"
+	"github.com/dcb9/curl2httpie/httpie"
 )
 
 type Transformer func(cl *httpie.CmdLine, o *curl.Option)
@@ -44,11 +45,18 @@ func Method(cl *httpie.CmdLine, o *curl.Option) {
 var ErrUnknownDataType = errors.New("unknown data type")
 
 func Data(cl *httpie.CmdLine, o *curl.Option) {
-	s := strings.SplitN(o.Arg, "=", 2)
-	if len(s) == 2 {
-		i := httpie.NewDataField(s[0], s[1])
-		cl.AddItem(i)
-		cl.HasBody = true
+	args := strings.Split(o.Arg, "&")
+	var urlEncoded bool
+	for _, arg := range args {
+		s := strings.SplitN(arg, "=", 2)
+		if len(s) == 2 {
+			i := httpie.NewDataField(s[0], s[1])
+			cl.AddItem(i)
+			cl.HasBody = true
+			urlEncoded = true
+		}
+	}
+	if urlEncoded {
 		return
 	}
 
