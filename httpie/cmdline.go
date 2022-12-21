@@ -34,19 +34,21 @@ func (cl *CmdLine) AddItem(i *Item) {
 	cl.Items = append(cl.Items, i)
 }
 
-func addQuoteIfNeeded(s string) string {
-	specialCharIndex := strings.IndexFunc(s, func(r rune) bool {
+func needQuote(s string) bool {
+	return -1 != strings.IndexFunc(s, func(r rune) bool {
 		switch r {
-		case '&', '@', '#', '[', ']', '{', '}':
+		case '&', '@', '#', '[', ']', '{', '}', ' ', '(', ')', '*':
 			return true
 		}
 		return false
 	})
-	if -1 == specialCharIndex {
-		return fmt.Sprintf("%s", s)
-	}
+}
 
-	return fmt.Sprintf("'%s'", s)
+func addQuoteIfNeeded(s string) string {
+	if needQuote(s) {
+		return fmt.Sprintf("'%s'", s)
+	}
+	return fmt.Sprintf("%s", s)
 }
 
 func (cl *CmdLine) String() string {
@@ -65,7 +67,7 @@ func (cl *CmdLine) String() string {
 
 	// default flag
 	for _, v := range cl.Flags {
-		s = append(s, addQuoteIfNeeded(v.String()))
+		s = append(s, v.String())
 	}
 
 	if cl.Method == nil {

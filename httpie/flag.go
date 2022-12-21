@@ -30,8 +30,9 @@ func (f *Flag) String() string {
 		if f.Separator == "" {
 			f.Separator = " " // Use whitespace as default separator
 		}
-		arg = fmt.Sprintf(`%s%s`, f.Separator, f.Arg)
+		arg = fmt.Sprintf(`%s%s`, f.Separator, addQuoteIfNeeded(f.Arg))
 	}
+
 	return fmt.Sprintf("--%s%s", f.Long, arg)
 }
 

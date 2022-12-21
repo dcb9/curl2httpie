@@ -19,6 +19,9 @@ type Item struct {
 }
 
 func (i *Item) String() string {
+	if needQuote(i.V) {
+		return fmt.Sprintf(`'%s%s%s'`, i.K, i.S, i.V)
+	}
 	return fmt.Sprintf(`%s%s%s`, i.K, i.S, i.V)
 }
 
