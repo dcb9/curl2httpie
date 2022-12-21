@@ -34,6 +34,21 @@ func (cl *CmdLine) AddItem(i *Item) {
 	cl.Items = append(cl.Items, i)
 }
 
+func addQuoteIfNeeded(s string) string {
+	specialCharIndex := strings.IndexFunc(s, func(r rune) bool {
+		switch r {
+		case '&', '@', '#', '[', ']', '{', '}':
+			return true
+		}
+		return false
+	})
+	if -1 == specialCharIndex {
+		return fmt.Sprintf("%s", s)
+	}
+
+	return fmt.Sprintf("'%s'", s)
+}
+
 func (cl *CmdLine) String() string {
 	// slice
 	s := make([]string, 0, len(cl.Flags)+len(cl.Items)+3) // http method url
@@ -50,7 +65,7 @@ func (cl *CmdLine) String() string {
 
 	// default flag
 	for _, v := range cl.Flags {
-		s = append(s, v.String())
+		s = append(s, addQuoteIfNeeded(v.String()))
 	}
 
 	if cl.Method == nil {
@@ -69,7 +84,7 @@ func (cl *CmdLine) String() string {
 		s = append(s, "--"+cl.ContentType)
 	}
 
-	s = append(s, cl.Method.String(), fmt.Sprintf("'%s'", cl.URL))
+	s = append(s, cl.Method.String(), addQuoteIfNeeded(cl.URL))
 
 	for _, v := range cl.Items {
 		s = append(s, v.String())
