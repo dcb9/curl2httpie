@@ -78,7 +78,7 @@ func URL(cl *httpie.CmdLine, o *curl.Option) {
 
 func User(cl *httpie.CmdLine, o *curl.Option) {
 	f := httpie.NewFlag("auth")
-	f.SetArg(o.Arg)
+	f.SetArg(o.Arg, " ")
 
 	cl.AddFlag(f)
 }
@@ -102,6 +102,12 @@ func Referer(cl *httpie.CmdLine, o *curl.Option) {
 func Cookie(cl *httpie.CmdLine, o *curl.Option) {
 	h := httpie.NewHeader("Cookie", o.Arg)
 	cl.AddItem(h)
+}
+
+func Verify(cl *httpie.CmdLine, o *curl.Option) {
+	h := httpie.NewFlag("verify")
+	h.SetArg("no", "=")
+	cl.AddFlag(h)
 }
 
 func Noop(cl *httpie.CmdLine, o *curl.Option) {

@@ -19,6 +19,7 @@ var curl2HttpieTransformerMap = map[curl.LongName]httpieTransformer.Transformer{
 	"verbose":    httpieTransformer.Verbose,
 	"referer":    httpieTransformer.Referer,
 	"cookie":     httpieTransformer.Cookie,
+	"insecure":   httpieTransformer.Verify,
 }
 
 func Curl2Httpie(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {

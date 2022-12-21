@@ -2,29 +2,35 @@ package httpie
 
 import (
 	"fmt"
+
 	flag "github.com/spf13/pflag"
 )
 
 type Flag struct {
-	Long   string
-	Short  byte
-	HasArg bool
-	Arg    string
+	Long      string
+	Short     byte
+	HasArg    bool
+	Arg       string
+	Separator string
 }
 
 func (f *Flag) SetShort(s byte) {
 	f.Short = s
 }
 
-func (f *Flag) SetArg(arg string) {
+func (f *Flag) SetArg(arg string, separator string) {
 	f.HasArg = true
 	f.Arg = arg
+	f.Separator = separator
 }
 
 func (f *Flag) String() string {
 	arg := ""
 	if f.HasArg {
-		arg = fmt.Sprintf(` '%s'`, f.Arg)
+		if f.Separator == "" {
+			f.Separator = " " // Use whitespace as default separator
+		}
+		arg = fmt.Sprintf(`%s%s`, f.Separator, f.Arg)
 	}
 	return fmt.Sprintf("--%s%s", f.Long, arg)
 }
