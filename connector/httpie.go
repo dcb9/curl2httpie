@@ -1,14 +1,15 @@
 package connector
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"strings"
 
 	"github.com/dcb9/curl2httpie/curl"
 	"github.com/dcb9/curl2httpie/httpie"
 	curlTransformer "github.com/dcb9/curl2httpie/transformers/curl"
-	"io/ioutil"
-	"os"
-	"strings"
 )
 
 func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []WarningMessage, err error) {
@@ -89,7 +90,7 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 				}
 				data[i.K] = bytes
 			} else {
-				data[i.K] = i.V
+				data[i.K] = json.RawMessage([]byte(i.V))
 			}
 		}
 	}
@@ -100,7 +101,10 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 	if hasData {
 		if isJSONContentType {
 			var bs []byte
-			// FIXME
+			bs, err = json.Marshal(data)
+			if err != nil {
+				return nil, nil, err
+			}
 			curlCmdLine.Options = append(curlCmdLine.Options, curl.NewJSONHeader(), curl.NewData(string(bs)))
 		} else {
 			fields := make([]string, 0, len(data))

@@ -89,6 +89,16 @@ func TestHttpie2Curl(t *testing.T) {
 		},
 	}
 
+	// cases = []struct {
+	// 	in   []string
+	// 	want string
+	// }{
+	// 	{
+	// 		[]string{"http", "--auth", "username", "example.org", "id==1", "foo:bar", "foo=bar", `a:={"foo": "bar"}`},
+	// 		`curl --user 'username' --header 'foo: bar' --header 'Content-Type: application/json' --data '{"a":{"foo":"bar"},"foo":"bar"}' 'example.org?id=1'`,
+	// 	},
+	// }
+
 	for _, c := range cases {
 		gotStringer, warningMessages, err := Httpie2Curl(c.in[1:])
 		if len(warningMessages) > 0 {
@@ -101,7 +111,7 @@ func TestHttpie2Curl(t *testing.T) {
 
 		want := c.want
 		if got := gotStringer.String(); got != want {
-			t.Errorf("Httpie2Curl error got: %s\n\twant: %s\n\tin: %#v", got, want, c.in)
+			t.Errorf("Httpie2Curl error\ngot:\n%s\nwant:\n%s\nin:\n%#v", got, want, c.in)
 		}
 	}
 }
