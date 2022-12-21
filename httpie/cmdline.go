@@ -37,7 +37,15 @@ func (cl *CmdLine) AddItem(i *Item) {
 func (cl *CmdLine) String() string {
 	// slice
 	s := make([]string, 0, len(cl.Flags)+len(cl.Items)+3) // http method url
-	s = append(s, "http")
+
+	if strings.HasPrefix(cl.URL, "https://") {
+		s = append(s, "https")
+		cl.URL = strings.TrimPrefix(cl.URL, "https://")
+	} else {
+		s = append(s, "http")
+		cl.URL = strings.TrimPrefix(cl.URL, "http://")
+	}
+
 	// flags
 
 	// default flag
