@@ -39,8 +39,8 @@ initGithooks:
 
 clean:
 	@rm -rf $(BUILD_DIR)
-	@rm -f curl2httpie
-	@rm -f artifacts
+	@rm -rf curl2httpie
+	@rm -rf artifacts
 	@mkdir artifacts
 
 test:

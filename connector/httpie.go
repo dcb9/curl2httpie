@@ -115,6 +115,11 @@ func Httpie2Curl(args []string) (cmdStringer fmt.Stringer, warningMessages []War
 		}
 	}
 
+	if httpieInstance.IsHttps &&
+		!strings.HasPrefix(curlCmdLine.URL, "https://") &&
+		!strings.HasPrefix(curlCmdLine.URL, "http://") {
+		curlCmdLine.URL = "https://" + curlCmdLine.URL
+	}
 	cmdStringer = curlCmdLine.NewStringer(true)
 
 	return

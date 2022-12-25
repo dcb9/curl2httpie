@@ -21,8 +21,8 @@ func Convert(args []string) (cmdStringer fmt.Stringer, warningMessages []Warning
 	switch args[0] {
 	case "curl":
 		return Curl2Httpie(args[1:])
-	case "http":
-		return Httpie2Curl(args[1:])
+	case "http", "https":
+		return Httpie2Curl(args)
 	}
 
 	err = ErrUnknownCommandType

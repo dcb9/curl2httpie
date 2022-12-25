@@ -3,6 +3,8 @@ package curl
 import (
 	"fmt"
 	"strings"
+
+	"github.com/dcb9/curl2httpie/shellwords"
 )
 
 type CmdLine struct {
@@ -33,7 +35,8 @@ func (cmdlineStringer *CmdLineStringer) String() string {
 	if len(cmdlineStringer.Options) > 0 {
 		parts = append(parts, strings.Join(options, " "))
 	}
-	parts = append(parts, fmt.Sprintf("'%s'", cmdlineStringer.URL))
+
+	parts = append(parts, shellwords.AddQuoteIfNeeded(cmdlineStringer.URL))
 
 	return strings.Join(parts, " ")
 }

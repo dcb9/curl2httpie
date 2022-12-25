@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/dcb9/curl2httpie/constant"
 	"log"
 	"os"
+
+	"github.com/dcb9/curl2httpie/constant"
 
 	"github.com/dcb9/curl2httpie/connector"
 )

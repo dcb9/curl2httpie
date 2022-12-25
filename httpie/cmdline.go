@@ -6,12 +6,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/dcb9/curl2httpie/shellwords"
 )
 
 type CmdLine struct {
 	Flags         []*Flag
 	Method        *Method
 	URL           string
+	IsHttps       bool
 	Items         []*Item
 	HasBody       bool
 	ContentType   string
@@ -32,23 +35,6 @@ func (cl *CmdLine) SetURL(url string) {
 
 func (cl *CmdLine) AddItem(i *Item) {
 	cl.Items = append(cl.Items, i)
-}
-
-func needQuote(s string) bool {
-	return -1 != strings.IndexFunc(s, func(r rune) bool {
-		switch r {
-		case '&', '@', '#', '[', ']', '{', '}', ' ', '(', ')', '*':
-			return true
-		}
-		return false
-	})
-}
-
-func addQuoteIfNeeded(s string) string {
-	if needQuote(s) {
-		return fmt.Sprintf("'%s'", s)
-	}
-	return fmt.Sprintf("%s", s)
 }
 
 func (cl *CmdLine) String() string {
@@ -86,7 +72,7 @@ func (cl *CmdLine) String() string {
 		s = append(s, "--"+cl.ContentType)
 	}
 
-	s = append(s, cl.Method.String(), addQuoteIfNeeded(cl.URL))
+	s = append(s, cl.Method.String(), shellwords.AddQuoteIfNeeded(cl.URL))
 
 	for _, v := range cl.Items {
 		s = append(s, v.String())
@@ -114,51 +100,30 @@ func NewCmdLine() *CmdLine {
 
 func NewCmdLineByArgs(args []string) (*CmdLine, error) {
 	cmdLine := NewCmdLine()
+	if args[0] == "https" {
+		cmdLine.IsHttps = true
+	}
+	args = args[1:]
 	if len(args) == 1 {
 		cmdLine.URL = args[0]
 		return cmdLine, nil
 	}
 
 	var err error
-	cmdLine.Flags, err = getFlagsByArgs(args)
+	var pureArgs []string
+	cmdLine.Flags, pureArgs, err = removeFlags(args)
 	if err != nil {
 		return nil, fmt.Errorf("NewCmdLineByArgs: %w", err)
 	}
 
-	cmdLine.Method, cmdLine.URL, cmdLine.Items, err = getMethodURLAndItems(args)
+	cmdLine.Method, cmdLine.URL, cmdLine.Items, err = getMethodURLAndItems(pureArgs)
 	return cmdLine, nil
 }
 
 func getMethodURLAndItems(args []string) (method *Method, url string, items []*Item, err error) {
 	method = NewMethod("")
 
-	var lastFlagIndex int
-	foundFlag := false
-	for i := len(args) - 1; i >= 0; i-- {
-		if strings.HasPrefix(args[i], "-") {
-			lastFlagIndex = i
-			foundFlag = true
-			break
-		}
-	}
-
 	possibleMethodIndex := 0
-	if foundFlag {
-		var flags []*Flag
-		flags, err = getFlagsByArgs(args[lastFlagIndex:])
-		if err != nil {
-			return
-		}
-		if len(flags) < 1 {
-			err = fmt.Errorf("invalid flags")
-			return
-		}
-		if flags[0].HasArg {
-			possibleMethodIndex = lastFlagIndex + 2
-		} else {
-			possibleMethodIndex = lastFlagIndex + 1
-		}
-	}
 
 	urlIndex := possibleMethodIndex
 	possibleMethod := strings.ToUpper(args[possibleMethodIndex])

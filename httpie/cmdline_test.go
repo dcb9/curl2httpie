@@ -129,7 +129,7 @@ func TestNewCmdLineByArgs(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		got, err := NewCmdLineByArgs(c.in[1:])
+		got, err := NewCmdLineByArgs(c.in)
 		if err != nil {
 			t.Fatalf("NewCmdLineByArgs error: %s in: %#v", err.Error(), c.in)
 		}

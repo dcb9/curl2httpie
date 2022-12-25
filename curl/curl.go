@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+
+	"github.com/dcb9/curl2httpie/shellwords"
 )
 
 type Tag string
@@ -32,10 +34,10 @@ func (o *Option) String(useLongName bool) string {
 
 	if o.HasArg {
 		if useLongName {
-			return fmt.Sprintf(`--%s '%s'`, o.Long, arg)
+			return fmt.Sprintf(`--%s %s`, o.Long, shellwords.AddQuoteIfNeeded(arg))
 		}
 
-		return fmt.Sprintf(`-%s '%s'`, string(o.Short), arg)
+		return fmt.Sprintf(`-%s %s`, string(o.Short), shellwords.AddQuoteIfNeeded(arg))
 	}
 
 	if useLongName {

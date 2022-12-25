@@ -3,6 +3,7 @@ package httpie
 import (
 	"fmt"
 
+	"github.com/dcb9/curl2httpie/shellwords"
 	flag "github.com/spf13/pflag"
 )
 
@@ -30,7 +31,7 @@ func (f *Flag) String() string {
 		if f.Separator == "" {
 			f.Separator = " " // Use whitespace as default separator
 		}
-		arg = fmt.Sprintf(`%s%s`, f.Separator, addQuoteIfNeeded(f.Arg))
+		arg = fmt.Sprintf(`%s%s`, f.Separator, shellwords.AddQuoteIfNeeded(f.Arg))
 	}
 
 	return fmt.Sprintf("--%s%s", f.Long, arg)
@@ -119,7 +120,7 @@ var AllFlags = []*Flag{
 	CertKeyFlag,
 }
 
-func getFlagsByArgs(args []string) ([]*Flag, error) {
+func removeFlags(args []string) ([]*Flag, []string, error) {
 	CommandLine := flag.NewFlagSet("httpie", flag.ContinueOnError)
 	boolValues := make([]*bool, len(AllFlags))
 	stringValues := make([]*string, len(AllFlags))
@@ -140,7 +141,7 @@ func getFlagsByArgs(args []string) ([]*Flag, error) {
 	}
 	err := CommandLine.Parse(args)
 	if err != nil {
-		return nil, fmt.Errorf("GetFlagsByArgs: %w", err)
+		return nil, nil, fmt.Errorf("GetFlagsByArgs: %w", err)
 	}
 	flags := make([]*Flag, 0, len(args))
 	for i, f := range AllFlags {
@@ -155,5 +156,6 @@ func getFlagsByArgs(args []string) ([]*Flag, error) {
 			}
 		}
 	}
-	return flags, nil
+
+	return flags, CommandLine.Args(), nil
 }
